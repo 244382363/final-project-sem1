@@ -30,6 +30,11 @@ namespace final_project_sem1
             //m1 = new MouseState();
         }
 
+        public void Clicked()
+        {
+            st_frameTimer = 16;
+        }
+
         public void DrawMe(SpriteBatch sb, GameTime gt)
         {
             /* m_animCell.X = (m_animCell.X + m_animCell.Width);
@@ -51,10 +56,7 @@ namespace final_project_sem1
             {
                 st_frameTimer -= (float)gt.ElapsedGameTime.TotalSeconds * st_fps;
             }
-            if (_rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
-            {
-                sb.Draw(st_SpriteSheet, _rect, Color.Black);
-            }
+           
 
             sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
         }
