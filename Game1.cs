@@ -16,6 +16,7 @@ namespace final_project_sem1
         SpriteFont debugFont;
         background bgd1,bgd2;
         Bat bat;
+        buttons st_button;
 
         public Game1()
         {
@@ -40,6 +41,8 @@ namespace final_project_sem1
 
             debugFont = Content.Load<SpriteFont>("Ariel07");
 
+
+            st_button = new buttons(Content.Load<Texture2D>("start_button"), 400, 700, 16, 16);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bat = new Bat(Content.Load<Texture2D>("bounce disk"), 400, 900);
@@ -65,6 +68,7 @@ namespace final_project_sem1
 
             bgd1.DrawMe(_spriteBatch);
             bat.DrawMe(_spriteBatch);
+            st_button.DrawMe(_spriteBatch, gameTime);
 
 
             _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth

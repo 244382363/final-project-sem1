@@ -14,6 +14,7 @@
     <None Remove="Content\debugfont.spritefont" />
     <None Remove="Content\skin select background.png" />
     <None Remove="Content\start screen background.png" />
+    <None Remove="Content\start_button.png" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
