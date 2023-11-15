@@ -41,7 +41,7 @@ namespace final_project_sem1
              if (m_animCell.X >= m_SpriteSheet.Width)
                  m_animCell.X = 0;*/
             //modify the drawme method of spinning coin
-            if (st_frameTimer <= 0)
+            if (CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && st_frameTimer <= 0)
             {
                 st_animCell.X = (st_animCell.X + st_animCell.Width);
                 if (st_animCell.X >= st_SpriteSheet.Width)
@@ -52,13 +52,17 @@ namespace final_project_sem1
                 st_frameTimer = 1;
             }
 
-            else
+            else 
             {
+                
+            
+            
                 st_frameTimer -= (float)gt.ElapsedGameTime.TotalSeconds * st_fps;
+                
             }
-           
-
             sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
+
+
         }
     }
 }
