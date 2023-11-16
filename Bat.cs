@@ -9,7 +9,7 @@ namespace final_project_sem1
     class Bat
     {
 
-        public Rectangle Rect;
+        public Rectangle CollisionRect;
         private Texture2D _txr;
         private bool _goingRight;
         public float speed;
@@ -18,32 +18,32 @@ namespace final_project_sem1
         public Bat(Texture2D txr, int xPos, int yPos)
         {
             _txr = txr;
-            Rect = new Rectangle(xPos, yPos, _txr.Width, _txr.Height);
+            CollisionRect = new Rectangle(xPos, yPos, _txr.Width, _txr.Height);
             speed = 4f;
         }
 
 
         public void UpdateMe(GamePadState pad)
         {
-            if (pad.ThumbSticks.Left.X < 0 && Rect.X > 0)
+            if (pad.ThumbSticks.Left.X < 0 && CollisionRect.X > 0)
             {
                 _goingRight = false;
-                Rect.X -= (int)speed;
+                CollisionRect.X -= (int)speed;
             }
 
-            else if (pad.ThumbSticks.Left.X > 0 && Rect.X < 1280 - _txr.Width)
+            else if (pad.ThumbSticks.Left.X > 0 && CollisionRect.X < 1024 - _txr.Width)
             {
                 _goingRight = true;
-                Rect.X += (int)speed;
+                CollisionRect.X += (int)speed;
             }
         }
 
         public void DrawMe(SpriteBatch sb)
         {
                 if (_goingRight)
-                    sb.Draw(_txr, Rect, Color.White);
+                    sb.Draw(_txr, CollisionRect, Color.White);
                 else
-                    sb.Draw(_txr, Rect, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+                    sb.Draw(_txr, CollisionRect, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
         }
         
     }

@@ -7,6 +7,13 @@ namespace final_project_sem1
 {
     public class Game1 : Game
     {
+        enum GameStates
+        {
+            St_screen,
+            Skin_select,
+            Gameplayscreen
+
+        }
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MouseState _mouseState;
@@ -15,10 +22,12 @@ namespace final_project_sem1
         public static readonly Random RNG = new Random();
         GamePadState padcurr;
 
+        GameStates _currState;
         SpriteFont debugFont;
         background bgd1,bgd2;
         Bat bat;
-        buttons st_button;
+        buttons st_button, bk_button, sk_button;
+        ball _ball;
        
 
         public Game1()
@@ -27,16 +36,19 @@ namespace final_project_sem1
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            
             _graphics.PreferredBackBufferWidth = 1024;
             _graphics.PreferredBackBufferHeight = 990;
         }
 
+        
+
         protected override void Initialize()
         {
-
-            _mouseState = MouseClicks.GetState();
+            _currState = GameStates.St_screen;
             
-            // TODO: Add your initialization logic here
+            
+           
 
             base.Initialize();
         }
@@ -47,8 +59,16 @@ namespace final_project_sem1
 
             debugFont = Content.Load<SpriteFont>("Ariel07");
 
+            Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
+                                                        GraphicsDevice.Viewport.Bounds.Center.Y + RNG.Next(-100, 100));
 
-            st_button = new buttons(Content.Load<Texture2D>("start_button1"), 400, 700, 2, 24);
+            Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 6,
+                                                        (float)(RNG.NextDouble() * 2) - 6);
+            _ball = new ball(Content.Load<Texture2D>("ball"), startPos, startVel);
+            
+            st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24);
+            bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24);
+            sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 700, 2, 24);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bat = new Bat(Content.Load<Texture2D>("bounce disk"), 400, 900);
@@ -56,53 +76,137 @@ namespace final_project_sem1
             
         }
 
-        /*public void HandleInput(GameTime gameTime)
-        {
-            _mouseState = MouseClicks.GetState();
-
-            if(_mouseState.LeftButton == ButtonState.Pressed)
-            {
-                if(MouseClicks.HasNotBeenPressed(true))
-                {
-                    _mouseLeftPressed = true;
-                }
-            }
-
-        }*/
+        
 
         protected override void Update(GameTime gameTime)
         {
-            
+            _mouseState = Mouse.GetState();
             padcurr = GamePad.GetState(PlayerIndex.One);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             bat.UpdateMe(padcurr);
+            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
+
+            if (_ball.Rect.Intersects(bat.CollisionRect))
+            {
+                
+                    _ball._velocity.X *= -1;
+                    _ball._velocity.Y *= -1;
+            }
+
+
+            switch (_currState)
+            {
+                case GameStates.St_screen:
+                    St_screenUpdate(_mouseState);
+                    break;
+
+                case GameStates.Skin_select:
+                    Skin_selectUpdate(_mouseState);
+                    break;
+                case GameStates.Gameplayscreen:
+                    GameplayscreenUpdate(_mouseState);
+                    break;
+                
+            }
+            
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            
+            
+
+
+            switch (_currState)
+            {
+                case GameStates.St_screen:
+                    St_screenDraw(gameTime);
+                    break;
+
+                case GameStates.Skin_select:
+                    Skin_selectDraw(gameTime);
+                    break;
+                case GameStates.Gameplayscreen:
+                    GameplayscreenDraw(gameTime);
+                    break;
+            }
+
+
+
+
+           /* _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
+                                              + " x " + _graphics.PreferredBackBufferHeight,
+                                              Vector2.Zero, Color.White);*/
+            
+
+
+            base.Draw(gameTime);
+        }
+
+        void St_screenUpdate(MouseState ms)
+        {
+            if (sk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.Skin_select;
+
+            }
+            else if (st_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.Gameplayscreen;
+
+            }
+        }
+        void Skin_selectUpdate(MouseState ms)
+        {
+            if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.St_screen;
+
+            }
+        }
+
+        void GameplayscreenUpdate(MouseState ms)
+        {
+
+        }
+
+
+        void St_screenDraw(GameTime gameTime)
+        {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
             bgd1.DrawMe(_spriteBatch);
-            bat.DrawMe(_spriteBatch);
             st_button.DrawMe(_spriteBatch, gameTime);
-            if (st_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
-            {
-                bgd2.DrawMe(_spriteBatch);
-            }
+            sk_button.DrawMe(_spriteBatch, gameTime);
 
-
-                _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
-                                              + " x " + _graphics.PreferredBackBufferHeight,
-                                              Vector2.Zero, Color.White);
             _spriteBatch.End();
 
+        }
 
-            base.Draw(gameTime);
+        void Skin_selectDraw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+
+            bgd2.DrawMe(_spriteBatch);
+            bk_button.DrawMe(_spriteBatch, gameTime);
+
+            _spriteBatch.End();
+        }
+        void GameplayscreenDraw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
+
+            _ball.DrawMe(_spriteBatch);
+            bat.DrawMe(_spriteBatch);
+
+            _spriteBatch.End();
         }
     }
 }
