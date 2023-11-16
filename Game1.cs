@@ -85,15 +85,21 @@ namespace final_project_sem1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+
             bat.UpdateMe(padcurr);
-            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
 
             if (_ball.Rect.Intersects(bat.CollisionRect))
             {
-                
-                    _ball._velocity.X *= -1;
-                    _ball._velocity.Y *= -1;
+
+                //_ball._velocity.X *= -1;
+                _ball._velocity.Y *= +1;
             }
+            
+            
+            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
+                
+            
+            
 
 
             switch (_currState)
