@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 
 namespace final_project_sem1
@@ -27,21 +28,29 @@ namespace final_project_sem1
         }
 
         // Class Methods
-        public void UpdateMe(Rectangle bounds)
+        public void UpdateMe(Rectangle bounds, Rectangle batRect)
         {
-            _position += _velocity;
-            _rotation += _rotationSpeed;
+            
 
             if (_position.X < bounds.Left || _position.X > bounds.Right)
                 _velocity.X *= -1;
 
             if (_position.Y < bounds.Top || _position.Y > bounds.Bottom)
                 _velocity.Y *= -1;
+
+            if (Rect.Intersects(batRect))
+                _velocity.Y *= -1;
+
+            _position += _velocity;
+
+            _rotation += _rotationSpeed;
+
+            Rect = new Rectangle(_position.ToPoint(), _art.Bounds.Size);
         }
 
         public void DrawMe(SpriteBatch sb)
         {
-            // sBatch.Draw(Art, Position, Color.White);
+            // sB.Draw(Art, Position, Color.White);
             sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), new Vector2(0.1f), SpriteEffects.None, 0);
         }
     }

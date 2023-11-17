@@ -17,18 +17,18 @@ namespace final_project_sem1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MouseState _mouseState;
-        
+
 
         public static readonly Random RNG = new Random();
         GamePadState padcurr;
 
         GameStates _currState;
         SpriteFont debugFont;
-        background bgd1,bgd2;
+        background bgd1, bgd2;
         Bat bat;
         buttons st_button, bk_button, sk_button;
         ball _ball;
-       
+
 
         public Game1()
         {
@@ -36,19 +36,19 @@ namespace final_project_sem1
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            
+
             _graphics.PreferredBackBufferWidth = 1024;
             _graphics.PreferredBackBufferHeight = 990;
         }
 
-        
+
 
         protected override void Initialize()
         {
             _currState = GameStates.St_screen;
-            
-            
-           
+
+
+
 
             base.Initialize();
         }
@@ -62,10 +62,10 @@ namespace final_project_sem1
             Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
                                                         GraphicsDevice.Viewport.Bounds.Center.Y + RNG.Next(-100, 100));
 
-            Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 6,
-                                                        (float)(RNG.NextDouble() * 2) - 6);
+            Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 4,
+                                                        (float)(RNG.NextDouble() * 2) - 4);
             _ball = new ball(Content.Load<Texture2D>("ball"), startPos, startVel);
-            
+
             st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24);
             bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24);
             sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 700, 2, 24);
@@ -73,10 +73,10 @@ namespace final_project_sem1
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bat = new Bat(Content.Load<Texture2D>("bounce disk"), 400, 900);
 
-            
+
         }
 
-        
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -86,20 +86,16 @@ namespace final_project_sem1
                 Exit();
 
 
+            
+
+           
+
+
+            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds, bat.CollisionRect);
             bat.UpdateMe(padcurr);
 
-            if (_ball.Rect.Intersects(bat.CollisionRect))
-            {
 
-                //_ball._velocity.X *= -1;
-                _ball._velocity.Y *= +1;
-            }
-            
-            
-            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
-                
-            
-            
+
 
 
             switch (_currState)
@@ -114,17 +110,17 @@ namespace final_project_sem1
                 case GameStates.Gameplayscreen:
                     GameplayscreenUpdate(_mouseState);
                     break;
-                
+
             }
-            
+
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            
-            
+
+
 
 
             switch (_currState)
@@ -144,10 +140,10 @@ namespace final_project_sem1
 
 
 
-           /* _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
-                                              + " x " + _graphics.PreferredBackBufferHeight,
-                                              Vector2.Zero, Color.White);*/
-            
+            /* _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
+                                               + " x " + _graphics.PreferredBackBufferHeight,
+                                               Vector2.Zero, Color.White);*/
+
 
 
             base.Draw(gameTime);
