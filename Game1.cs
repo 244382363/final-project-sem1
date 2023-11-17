@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace final_project_sem1
 {
@@ -25,6 +28,7 @@ namespace final_project_sem1
         GameStates _currState;
         SpriteFont debugFont;
         background bgd1, bgd2;
+        List<Bricks> bricks;
         Bat bat;
         buttons st_button, bk_button, sk_button;
         ball _ball;
@@ -46,6 +50,7 @@ namespace final_project_sem1
         protected override void Initialize()
         {
             _currState = GameStates.St_screen;
+            bricks = new List<Bricks>();
 
 
 
@@ -59,12 +64,31 @@ namespace final_project_sem1
 
             debugFont = Content.Load<SpriteFont>("Ariel07");
 
+            bricks = new List<Bricks>();
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 70));
+            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 70));
+
             Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
                                                         GraphicsDevice.Viewport.Bounds.Center.Y + RNG.Next(-100, 100));
 
             Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 4,
                                                         (float)(RNG.NextDouble() * 2) - 4);
-            _ball = new ball(Content.Load<Texture2D>("ball"), startPos, startVel);
+            _ball = new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel);
 
             st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24);
             bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24);
@@ -78,6 +102,8 @@ namespace final_project_sem1
 
 
 
+
+
         protected override void Update(GameTime gameTime)
         {
             _mouseState = Mouse.GetState();
@@ -85,15 +111,31 @@ namespace final_project_sem1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             
 
-           
 
 
-            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds, bat.CollisionRect);
+
+
+            
             bat.UpdateMe(padcurr);
+            for (int i = 0; i < bricks.Count; i++)
+            {
+                if (bricks[i]._rect.Intersects(_ball.Rect))
+                {
 
+                    bricks.RemoveAt(i);
+                    //Debug.WriteLine("Collision detected with brick at index " + i);
+                    break;
+                }
+            }
+            if (_ball.Rect.Intersects(bat.CollisionRect))
+            {
+                _ball._position += _ball._velocity;
+                _ball._velocity.Y *= +1;
+                _ball._velocity.X *= +1;
+            }
+            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
 
 
 
@@ -204,7 +246,12 @@ namespace final_project_sem1
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            for (int i = 0; i < bricks.Count; i++)
+            {
 
+                bricks[i].DrawMe(_spriteBatch);
+                
+            }
             _ball.DrawMe(_spriteBatch);
             bat.DrawMe(_spriteBatch);
 
