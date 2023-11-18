@@ -36,7 +36,7 @@ namespace final_project_sem1
         buttons st_button, bk_button, sk_button;
         ball _ball;
 
-        const int NOOFSC_BACKGROUNDS = 3;
+        const int NOOFSC_BACKGROUNDS = 1;
 
         struct scrollingBG
         {
@@ -177,20 +177,20 @@ namespace final_project_sem1
                 Exit();
 
 
-            // Move the backgrounds to the buttom
+            // Move the backgrounds to the bottom
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
-                bgds[i]._rect.Y++;
+                bgds[i]._rect.Y--;
             }
 
             // Go through the backgrounds one by one
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
                 // If the current background has completely vanished off the bottom hand side of the screen
-                if (bgds[i]._rect.Y > _graphics.PreferredBackBufferHeight) // Note that this is 0 only because of the fake screen layout. It'd need to be equal to something much lower in fullscreen mode
+                if (bgds[i]._rect.Y < -990) // Note that this is 0 only because of the fake screen layout. It'd need to be equal to something much lower in fullscreen mode
                 {
-                    // Flip it over to AFTER the rightmost background
-                    bgds[i]._rect.Y = bgds[(i + (NOOFSC_BACKGROUNDS - 1)) % NOOFSC_BACKGROUNDS]._rect.Top;
+                    // Flip it over to AFTER the topmost background
+                    bgds[i]._rect.Y = bgds[(i + (NOOFSC_BACKGROUNDS - 1)) % NOOFSC_BACKGROUNDS]._rect.Bottom;
                 }
             }
 
