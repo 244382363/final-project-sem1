@@ -11,6 +11,7 @@ namespace final_project_sem1
         public Rectangle Rect;
         private Texture2D _art;
         public Vector2 _velocity;
+        float ballSpeed = 6;
 
         private float _rotation;
         private float _rotationSpeed;
@@ -45,6 +46,8 @@ namespace final_project_sem1
 
             Rect = new Rectangle(_position.ToPoint(), _art.Bounds.Size);
         }
+
+        
 
         public void DrawMe(SpriteBatch sb)
         {

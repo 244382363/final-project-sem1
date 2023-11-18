@@ -12,6 +12,9 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\debugfont.spritefont" />
+    <None Remove="Content\scrollingbackgrounds1.png" />
+    <None Remove="Content\scrollingbackgrounds2.png" />
+    <None Remove="Content\scrollingbackgrounds3.png" />
     <None Remove="Content\skin select background.png" />
     <None Remove="Content\start screen background.png" />
     <None Remove="Content\start_button.png" />
