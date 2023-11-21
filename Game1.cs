@@ -36,7 +36,7 @@ namespace final_project_sem1
         buttons st_button, bk_button, sk_button;
         ball _ball;
 
-        const int NOOFSC_BACKGROUNDS = 1;
+        const int NOOFSC_BACKGROUNDS = 3;
 
         struct scrollingBG
         {
@@ -87,7 +87,7 @@ namespace final_project_sem1
             // Go through the backgrounds one by one and set up their textures
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
-                bgds[i]._txr = Content.Load<Texture2D>("scrollingbackgrounds" + i);
+                bgds[i]._txr = Content.Load<Texture2D>("sc_bgd" + i);
             }
 
             // Load the visible area overlay

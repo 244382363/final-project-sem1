@@ -92,7 +92,7 @@
 /processorParam:TextureFormat=Color
 /build:game start screen.png
 
-#begin scrollingbackgrounds0.png
+#begin sc_bgd0.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,9 +102,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:scrollingbackgrounds0.png
+/build:sc_bgd0.png
 
-#begin scrollingbackgrounds1.png
+#begin sc_bgd1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -114,9 +114,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:scrollingbackgrounds1.png
+/build:sc_bgd1.png
 
-#begin scrollingbackgrounds2.png
+#begin sc_bgd2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -126,7 +126,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:scrollingbackgrounds2.png
+/build:sc_bgd2.png
 
 #begin skin select screen.png
 /importer:TextureImporter
