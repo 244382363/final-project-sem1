@@ -32,7 +32,7 @@ namespace final_project_sem1
         GameStates _currState;
         SpriteFont debugFont;
         background bgd1, bgd2;
-        List<Bricks> bricks;
+        List<Bricks> bricks_lv1, bricks_lv2, bricks_lv3;
         Bat bat;
         buttons st_button, bk_button, sk_button;
         ball _ball;
@@ -63,7 +63,9 @@ namespace final_project_sem1
         protected override void Initialize()
         {
             _currState = GameStates.St_screen;
-            bricks = new List<Bricks>();
+            bricks_lv1 = new List<Bricks>();
+            bricks_lv2 = new List<Bricks>();
+            bricks_lv3 = new List<Bricks>();
 
             bgds = new scrollingBG[NOOFSC_BACKGROUNDS];
 
@@ -95,59 +97,91 @@ namespace final_project_sem1
             //visibleScreen._txr = Content.Load<Texture2D>("viewable");
 
             pixel = Content.Load<Texture2D>("pixel");
-            
-            bricks = new List<Bricks>();
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 70));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 120));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 145));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 170));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 195));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 220));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 245));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 270));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 295));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 320));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 345));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 370));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 395));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 420));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 445));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 470));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 495));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 120));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 95));
-            bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 95));
+
+
+            //all the bricks for lv1
+            #region bricks_lv1 
+            bricks_lv1 = new List<Bricks>();
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 70, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 120, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 145, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 170, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 195, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 220, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 245, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 270, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 295, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 320, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 345, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 370, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 395, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 420, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 445, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 470, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 495, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 120, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 480, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 95, 0));
+            bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 95, 0));
+            #endregion  //all the bricks for lv1
+
+
+            //all the bricks for lv2
+            bricks_lv2 = new List<Bricks>();
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 930, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 980, 70, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 95, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 95, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
+            bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 95, 0));
+
 
 
             Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
@@ -164,6 +198,10 @@ namespace final_project_sem1
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bat = new Bat(Content.Load<Texture2D>("Bat_1"), 400, 900);
 
+
+        }
+        public void GetBricks()
+        {
 
         }
 
@@ -201,27 +239,11 @@ namespace final_project_sem1
 
 
             bat.UpdateMe(padcurr);
-            for (int i = 0; i < bricks.Count; i++)
-            {
 
+            
 
-
-                if (bricks[i]._rect.Intersects(_ball.Rect))
-                {
-                    _ball._velocity.X *= +1;
-                    _ball._velocity.Y *= -1;
-                    bricks.RemoveAt(i);
-                    //Debug.WriteLine("Collision detected with brick at index " + i);
-                    break;
-                }
-                if (bricks.Count == 0)
-                {
-                    _currState = GameStates.Gameplayscreen_level2;
-                }
-            }
-           
-
-
+            //ball collision for lv2
+            
 
             if (_ball.Rect.Intersects(bat.CollisionRect))
             {
@@ -247,7 +269,10 @@ namespace final_project_sem1
                     GameplayscreenUpdate(_mouseState);
                     break;
                 case GameStates.Gameplayscreen_level2:
-                    GameplayscreenUpdate(_mouseState);
+                    Gameplayscreen_lv2Update(_mouseState);
+                    break;
+                case GameStates.Gameplayscreen_level3:
+                    Gameplayscreen_lv3Update(_mouseState);
                     break;
             }
 
@@ -314,8 +339,58 @@ namespace final_project_sem1
 
         void GameplayscreenUpdate(MouseState ms)
         {
-           
+            //ball collision for lv1
+            for (int i = 0; i < bricks_lv1.Count; i++)
+            {
+
+
+
+                if (bricks_lv1[i]._rect.Intersects(_ball.Rect))
+                {
+                    _ball._velocity.X *= +1;
+                    _ball._velocity.Y *= -1;
+                    bricks_lv1.RemoveAt(i);
+                    //Debug.WriteLine("Collision detected with brick at index " + i);
+                    break;
+                }
+            }
+            if (bricks_lv1.Count <= 0)
+            {
+                _currState = GameStates.Gameplayscreen_level2;
+            }
+
         }
+
+        void Gameplayscreen_lv2Update(MouseState ms)
+        {
+            for (int i = 0; i < bricks_lv2.Count; i++)
+            {
+
+
+
+                if (bricks_lv2[i]._rect.Intersects(_ball.Rect))
+                {
+                    _ball._velocity.X *= +1;
+                    _ball._velocity.Y *= -1;
+                    bricks_lv2.RemoveAt(i);
+                    //Debug.WriteLine("Collision detected with brick at index " + i);
+                    break;
+                }
+            }
+            if (bricks_lv2.Count <= 0)
+            {
+                _currState = GameStates.Gameplayscreen_level3;
+            }
+        }
+
+        void Gameplayscreen_lv3Update(MouseState ms)
+        {
+
+        }
+
+
+            
+        
 
 
         void St_screenDraw(GameTime gameTime)
@@ -350,10 +425,10 @@ namespace final_project_sem1
                 _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
 
             
-            for (int i = 0; i < bricks.Count; i++)
+            for (int i = 0; i < bricks_lv1.Count; i++)
             {
 
-                bricks[i].DrawMe(_spriteBatch);
+                bricks_lv1[i].DrawMe(_spriteBatch);
                 
             }
             _ball.DrawMe(_spriteBatch);
@@ -365,16 +440,23 @@ namespace final_project_sem1
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            for (int i = 0; i < bricks.Count; i++)
+            for (int i = 0; i < bricks_lv2.Count; i++)
             {
 
-                bricks[i].DrawMe(_spriteBatch);
+                bricks_lv2[i].DrawMe(_spriteBatch);
 
             }
             _ball.DrawMe(_spriteBatch);
             bat.DrawMe(_spriteBatch);
 
             _spriteBatch.End();
+        }
+
+        void Gameplayscreen_level3_Draw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
+
         }
 
     }

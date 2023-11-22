@@ -15,15 +15,31 @@ namespace final_project_sem1
         Texture2D _txr;
         string _text;
         Vector2 _pos;
-        
+        public bool extra_ball_brick, fortify_brick;
 
 
-        public Bricks(Texture2D txr, int xpos, int ypos)
+        public Bricks(Texture2D txr, int xpos, int ypos,int mod_brick)
         {
             _txr = txr;
             _pos = new Vector2(xpos, ypos);
             _rect = new Rectangle(xpos, ypos, _txr.Width, _txr.Height);
 
+            if(mod_brick == 1)
+            {
+                extra_ball_brick = true;
+            }
+            else
+            {
+                extra_ball_brick = false;
+            }
+            if(mod_brick == 2)
+            {
+                fortify_brick = true;
+            }
+            else
+            {
+                fortify_brick= false;
+            }
         }
 
         public void DrawMe(SpriteBatch sb)
