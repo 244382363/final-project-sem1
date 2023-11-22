@@ -44,7 +44,10 @@ namespace final_project_sem1
                     sb.Draw(_txr, CollisionRect, Color.White);
                 else
                     sb.Draw(_txr, CollisionRect, null, Color.White, 0, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+
+            sb.Draw(Game1.pixel, CollisionRect, Color.PaleGreen * 0.5f);
+
         }
-        
+
     }
 }

@@ -44,7 +44,7 @@ namespace final_project_sem1
 
             
 
-            Rect = new Rectangle(_position.ToPoint(), _art.Bounds.Size);
+            Rect = new Rectangle(_position.ToPoint() - _art.Bounds.Center, _art.Bounds.Size);
         }
 
         
@@ -53,6 +53,7 @@ namespace final_project_sem1
         {
             // sB.Draw(Art, Position, Color.White);
             sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
+            sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
         }
     }
 }

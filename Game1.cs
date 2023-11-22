@@ -24,6 +24,7 @@ namespace final_project_sem1
         private SpriteBatch _spriteBatch;
         private MouseState _mouseState;
 
+        public static Texture2D pixel;
 
         public static readonly Random RNG = new Random();
         GamePadState padcurr;
@@ -70,7 +71,7 @@ namespace final_project_sem1
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
                 // Set their X, Y, Height and Width
-                bgds[i]._rect = new Rectangle(0,0, _graphics.PreferredBackBufferHeight, _graphics.PreferredBackBufferWidth);
+                bgds[i]._rect = new Rectangle(0,i*990,1024,990);
             }
 
             // Set up the viewable overlay
@@ -92,7 +93,8 @@ namespace final_project_sem1
 
             // Load the visible area overlay
             //visibleScreen._txr = Content.Load<Texture2D>("viewable");
-            
+
+            pixel = Content.Load<Texture2D>("pixel");
             
             bricks = new List<Bricks>();
             bricks.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70));
@@ -160,7 +162,7 @@ namespace final_project_sem1
             sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 700, 2, 24);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
-            bat = new Bat(Content.Load<Texture2D>("bounce disk"), 400, 900);
+            bat = new Bat(Content.Load<Texture2D>("Bat_1"), 400, 900);
 
 
         }
