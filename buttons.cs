@@ -15,8 +15,9 @@ namespace final_project_sem1
         public Rectangle CollisionRect;
         private float st_frameTimer;
         private float st_fps;
+        public bool anim_button;
 
-        public buttons(Texture2D spriteSheet, int xpos, int ypos, int frameCount, int fps)
+        public buttons(Texture2D spriteSheet, int xpos, int ypos, int frameCount, int fps, int an_button)
         {
             st_SpriteSheet = spriteSheet;
             st_animCell = new Rectangle(0,0, st_SpriteSheet.Width / frameCount, spriteSheet.Height);
@@ -26,7 +27,15 @@ namespace final_project_sem1
 
             CollisionRect = new Rectangle(xpos, ypos,
                 st_SpriteSheet.Width / frameCount, spriteSheet.Height);
-         
+            if (an_button == 1)
+            {
+                anim_button = true;
+            }
+            else
+            {
+                anim_button = false;
+            }
+           
             //m1 = new MouseState();
         }
 
@@ -37,31 +46,41 @@ namespace final_project_sem1
 
         public void DrawMe(SpriteBatch sb, GameTime gt)
         {
-            /* m_animCell.X = (m_animCell.X + m_animCell.Width);
-             if (m_animCell.X >= m_SpriteSheet.Width)
-                 m_animCell.X = 0;*/
-            //modify the drawme method of spinning coin
-            if (CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && st_frameTimer <= 0)
+            if (anim_button == true)
             {
-                st_animCell.X = (st_animCell.X + st_animCell.Width);
-                if (st_animCell.X >= st_SpriteSheet.Width)
-                    st_animCell.X = 0;
-                   
-                
 
-                st_frameTimer = 1;
+                if (CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && st_frameTimer <= 0)
+                {
+                    st_animCell.X = (st_animCell.X + st_animCell.Width);
+                    if (st_animCell.X >= st_SpriteSheet.Width)
+                        st_animCell.X = 0;
+
+
+
+                    st_frameTimer = 1;
+                }
+
+                else
+                {
+
+
+
+                    st_frameTimer -= (float)gt.ElapsedGameTime.TotalSeconds * st_fps;
+
+                }
+                sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
             }
-
-            else 
+            if (!anim_button)
             {
-                
-            
-            
-                st_frameTimer -= (float)gt.ElapsedGameTime.TotalSeconds * st_fps;
-                
+                if (CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                {
+                    sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White * 0.8f);
+                }
+                else
+                {
+                    sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
+                }
             }
-            sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
-
 
         }
     }

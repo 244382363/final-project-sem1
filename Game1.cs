@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 namespace final_project_sem1
 {
@@ -24,6 +22,9 @@ namespace final_project_sem1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MouseState _mouseState;
+        KeyboardState kb, oldkb;
+        
+
 
         public static Texture2D pixel;
 
@@ -31,12 +32,14 @@ namespace final_project_sem1
         GamePadState padcurr;
 
         GameStates _currState;
-        SpriteFont debugFont;
-        background bgd1, bgd2;
+        SpriteFont debugFont, GuideFont;
+        background bgd1, bgd2, cut_scene1;
         List<Bricks> bricks_lv1, bricks_lv2, bricks_lv3;
         Bat bat;
-        buttons st_button, bk_button, sk_button;
+        buttons st_button, bk_button, sk_button, nxt_button;
         ball _ball;
+        
+        
 
         const int NOOFSC_BACKGROUNDS = 3;
 
@@ -86,7 +89,8 @@ namespace final_project_sem1
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            GuideFont = Content.Load<SpriteFont>("Ariel07");
+            //testInput = new InputBox(Content.Load<Texture2D>("TextboxUI"), Content.Load<SpriteFont>("UIFont"));
             debugFont = Content.Load<SpriteFont>("Ariel07");
             // Go through the backgrounds one by one and set up their textures
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
@@ -192,11 +196,13 @@ namespace final_project_sem1
                                                         (float)(RNG.NextDouble() * 2) - 10);
             _ball = new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel);
 
-            st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24);
-            bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24);
-            sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 700, 2, 24);
+            st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24,1);
+            bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24, 1);
+            sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 700, 2, 24, 1);
+            nxt_button = new buttons(Content.Load<Texture2D>("next_button"), 430, 700, 2, 24, 0);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
+            cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
             bat = new Bat(Content.Load<Texture2D>("Bat_1"), 400, 900);
 
 
@@ -212,10 +218,13 @@ namespace final_project_sem1
 
         protected override void Update(GameTime gameTime)
         {
+            kb = Keyboard.GetState();
             _mouseState = Mouse.GetState();
             padcurr = GamePad.GetState(PlayerIndex.One);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+           
 
 
             // Move the backgrounds to the bottom
@@ -237,7 +246,7 @@ namespace final_project_sem1
 
 
 
-
+            oldkb = kb; 
 
             bat.UpdateMe(padcurr);
 
@@ -275,6 +284,9 @@ namespace final_project_sem1
                 case GameStates.Gameplayscreen_level3:
                     Gameplayscreen_lv3Update(_mouseState);
                     break;
+                case GameStates.cut_scene1:
+                    Cut_scene1Update(_mouseState);
+                    break;
             }
 
 
@@ -302,14 +314,15 @@ namespace final_project_sem1
                 case GameStates.Gameplayscreen_level2:
                     Gameplayscreen_level2_Draw(gameTime);
                     break;
+                case GameStates.cut_scene1:
+                    Cut_scene1Draw(gameTime);
+                    break;
             }
 
 
 
 
-            _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
-                                              + " x " + _graphics.PreferredBackBufferHeight,
-                                              Vector2.Zero, Color.White);
+            
 
 
 
@@ -338,6 +351,15 @@ namespace final_project_sem1
             }
         }
 
+        void Cut_scene1Update(MouseState ms)
+        {
+            if (nxt_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.Gameplayscreen_level2;
+
+            }
+        }
+
         void GameplayscreenUpdate(MouseState ms)
         {
             //ball collision for lv1
@@ -355,9 +377,9 @@ namespace final_project_sem1
                     break;
                 }
             }
-            if (bricks_lv1.Count <= 0)
+            if (bricks_lv1.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
             {
-                _currState = GameStates.Gameplayscreen_level2;
+                _currState = GameStates.cut_scene1;
             }
 
         }
@@ -402,6 +424,9 @@ namespace final_project_sem1
             bgd1.DrawMe(_spriteBatch);
             st_button.DrawMe(_spriteBatch, gameTime);
             sk_button.DrawMe(_spriteBatch, gameTime);
+            _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
+                                              + " x " + _graphics.PreferredBackBufferHeight,
+                                              Vector2.Zero, Color.White);
 
             _spriteBatch.End();
 
@@ -436,6 +461,32 @@ namespace final_project_sem1
             bat.DrawMe(_spriteBatch);
 
             _spriteBatch.End();
+        }
+
+        void Cut_scene1Draw(GameTime gameTime)
+        {
+            kb = Keyboard.GetState();
+            GraphicsDevice.Clear(Color.Black);
+            _spriteBatch.Begin();
+            
+            cut_scene1.DrawMe(_spriteBatch);
+            nxt_button.DrawMe(_spriteBatch, gameTime);
+            _spriteBatch.DrawString(GuideFont,
+                "Now you have got the skills to protect your land, there are more challenges awaits......."
+                , new Vector2 (200,200) , Color.Red);
+            if(kb.IsKeyDown(Keys.Space) || oldkb.IsKeyDown(Keys.Space))
+            {
+                _spriteBatch.DrawString(GuideFont,"......", new Vector2(200,300), Color.Red);
+                _spriteBatch.DrawString(GuideFont, "It's getting unstable....", new Vector2(200, 400), Color.Red);
+                _spriteBatch.DrawString(GuideFont, "levels until protals appear.....3", new Vector2(200, 500), Color.Red);
+            }
+           
+                
+
+
+
+            _spriteBatch.End();
+            oldkb = kb;
         }
         void Gameplayscreen_level2_Draw(GameTime gameTime)
         {

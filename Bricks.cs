@@ -13,7 +13,7 @@ namespace final_project_sem1
     {
         public Rectangle _rect;
         Texture2D _txr;
-        string _text;
+        
         Vector2 _pos;
         public bool extra_ball_brick, fortify_brick;
 
