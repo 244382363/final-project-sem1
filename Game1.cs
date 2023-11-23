@@ -14,6 +14,7 @@ namespace final_project_sem1
         {
             St_screen,
             Skin_select,
+            cut_scene1,
             Gameplayscreen_level1,
             Gameplayscreen_level2,
             Gameplayscreen_level3,
@@ -306,9 +307,9 @@ namespace final_project_sem1
 
 
 
-            /* _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
-                                               + " x " + _graphics.PreferredBackBufferHeight,
-                                               Vector2.Zero, Color.White);*/
+            _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
+                                              + " x " + _graphics.PreferredBackBufferHeight,
+                                              Vector2.Zero, Color.White);
 
 
 
