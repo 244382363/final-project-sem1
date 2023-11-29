@@ -19,11 +19,17 @@ namespace final_project_sem1
             Gameplayscreen_level4
 
         }
+
+        Point MAXSHAKE = new Point(8, 8);
+        
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private MouseState _mouseState;
         KeyboardState kb, oldkb;
-        
+        RenderTarget2D DrawCanvas;
+        Vector2 CanvasLocation;
+        int bouncesLeft;
 
 
         public static Texture2D pixel;
@@ -35,12 +41,14 @@ namespace final_project_sem1
         SpriteFont debugFont, GuideFont;
         background bgd1, bgd2, cut_scene1;
         List<Bricks> bricks_lv1, bricks_lv2, bricks_lv3;
+        List<ball> balls;
+        ball _balls;
         Bat bat;
         buttons st_button, bk_button, sk_button, nxt_button;
-        ball _ball;
-        
-        
 
+
+
+        int BOUNCECOUNT = 3;
         const int NOOFSC_BACKGROUNDS = 3;
 
         struct scrollingBG
@@ -70,9 +78,11 @@ namespace final_project_sem1
             bricks_lv1 = new List<Bricks>();
             bricks_lv2 = new List<Bricks>();
             bricks_lv3 = new List<Bricks>();
+            balls = new List<ball>();
 
             bgds = new scrollingBG[NOOFSC_BACKGROUNDS];
-
+            DrawCanvas = new RenderTarget2D(_graphics.GraphicsDevice, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            CanvasLocation = Vector2.Zero;
 
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
@@ -162,6 +172,7 @@ namespace final_project_sem1
 
 
             //all the bricks for lv2
+            #region          bricks_lv2   
             bricks_lv2 = new List<Bricks>();
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
@@ -186,15 +197,41 @@ namespace final_project_sem1
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 95, 0));
+            #endregion
 
+            //all the bricks for lv3
+            bricks_lv3 = new List<Bricks>();
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 180, 70, 1));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 380, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 430, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 530, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 580, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 630, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 680, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 730, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 930, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 980, 70, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 95, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 95, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
+            bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 330, 95, 1));
 
-
+            balls = new List<ball>();
             Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
                                                         GraphicsDevice.Viewport.Bounds.Center.Y + RNG.Next(-100, 100));
 
             Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 5,
                                                         (float)(RNG.NextDouble() * 2) - 10);
-            _ball = new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel);
+            balls.Add(new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel));
 
             st_button = new buttons(Content.Load<Texture2D>("start_button1"), 430, 600, 2, 24,1);
             bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24, 1);
@@ -218,11 +255,14 @@ namespace final_project_sem1
 
         protected override void Update(GameTime gameTime)
         {
-            kb = Keyboard.GetState();
+
+             kb = Keyboard.GetState();
             _mouseState = Mouse.GetState();
             padcurr = GamePad.GetState(PlayerIndex.One);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            
+           
 
            
 
@@ -254,14 +294,18 @@ namespace final_project_sem1
 
             //ball collision for lv2
             
-
-            if (_ball.Rect.Intersects(bat.CollisionRect))
+            for (int i = 0; i < balls.Count; i++)
             {
-                
-                    _ball._velocity.X *= +1;               
-                    _ball._velocity.Y *= -1;
+                if (balls[i].Rect.Intersects(bat.CollisionRect))
+                {
+
+                    balls[i]._velocity.X *= +1;
+                    balls[i]._velocity.Y *= -1;
+                }
+                balls[i].UpdateMe(GraphicsDevice.Viewport.Bounds);
             }
-            _ball.UpdateMe(GraphicsDevice.Viewport.Bounds);
+           
+           
 
 
 
@@ -314,6 +358,9 @@ namespace final_project_sem1
                 case GameStates.Gameplayscreen_level2:
                     Gameplayscreen_level2_Draw(gameTime);
                     break;
+                case GameStates.Gameplayscreen_level3:
+                    Gameplayscreen_level3_Draw(gameTime);
+                    break;
                 case GameStates.cut_scene1:
                     Cut_scene1Draw(gameTime);
                     break;
@@ -362,16 +409,56 @@ namespace final_project_sem1
 
         void GameplayscreenUpdate(MouseState ms)
         {
+            for (int i = 0; i < bricks_lv1.Count; i++)
+            {
+                if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
+                {
+                    if (bouncesLeft > 0) // Check to see if its got any bounces left to do
+                    {
+                        // Bounce to a random location
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        // Decrease the bounces left
+                        bouncesLeft--;
+                    }
+                    else if (bricks_lv1[i]._rect.Intersects(balls[0].Rect))
+                    {
+                        // Start a shake by bouncing to a random location...
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
+                        //snore.Play(); // Play the sound effect
+                    }
+                }
+                else    // We're not in the correct position...
+                {
+                    #region MOVE_BACK_TO_RESTING_POSITION // ... so work our way back to where we should be.
+                    if (CanvasLocation.X < 0)
+                    {
+                        CanvasLocation.X++;
+                    }
+                    else if (CanvasLocation.X > 0)
+                    {
+                        CanvasLocation.X--;
+                    }
+
+                    if (CanvasLocation.Y < 0)
+                    {
+                        CanvasLocation.Y++;
+                    }
+                    else if (CanvasLocation.Y > 0)
+                    {
+                        CanvasLocation.Y--;
+                    }
+                    #endregion
+                }
+            }
             //ball collision for lv1
             for (int i = 0; i < bricks_lv1.Count; i++)
             {
 
-
-
-                if (bricks_lv1[i]._rect.Intersects(_ball.Rect))
+                if (bricks_lv1[i]._rect.Intersects(balls[0].Rect))
                 {
-                    _ball._velocity.X *= +1;
-                    _ball._velocity.Y *= -1;
+                    balls[0]._velocity.X *= +1;
+                    balls[0]._velocity.Y *= -1;
                     bricks_lv1.RemoveAt(i);
                     //Debug.WriteLine("Collision detected with brick at index " + i);
                     break;
@@ -391,16 +478,16 @@ namespace final_project_sem1
 
 
 
-                if (bricks_lv2[i]._rect.Intersects(_ball.Rect))
+                if (bricks_lv2[i]._rect.Intersects(balls[0].Rect))
                 {
-                    _ball._velocity.X *= +1;
-                    _ball._velocity.Y *= -1;
+                    balls[0]._velocity.X *= +1;
+                    balls[0]._velocity.Y *= -1;
                     bricks_lv2.RemoveAt(i);
                     //Debug.WriteLine("Collision detected with brick at index " + i);
                     break;
                 }
             }
-            if (bricks_lv2.Count <= 0)
+            if (bricks_lv2.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
             {
                 _currState = GameStates.Gameplayscreen_level3;
             }
@@ -408,7 +495,26 @@ namespace final_project_sem1
 
         void Gameplayscreen_lv3Update(MouseState ms)
         {
+            for (int i = 0; i < bricks_lv3.Count; i++)
+            {
+                for (int j = 0; j < balls.Count; j++)
+                {
+                    if (bricks_lv3[i]._rect.Intersects(balls[j].Rect))
+                    {
+                        if (bricks_lv3[i].extra_ball_brick == true)
+                        {
+                            balls.Add(new ball(Content.Load<Texture2D>("ball_poke"), new Vector2(bricks_lv3[i]._rect.X, bricks_lv3[i]._rect.Y), new Vector2((float)5,
+                                                            (float)10)));
+                        }
+                        balls[j]._velocity.X *= +1;
+                        balls[j]._velocity.Y *= -1;
 
+                        bricks_lv3.RemoveAt(i);
+                        //Debug.WriteLine("Collision detected with brick at index " + i);
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -444,6 +550,7 @@ namespace final_project_sem1
         }
         void GameplayscreenDraw(GameTime gameTime)
         {
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             // go through the backgrounds, drawing each one in its position
@@ -457,7 +564,12 @@ namespace final_project_sem1
                 bricks_lv1[i].DrawMe(_spriteBatch);
                 
             }
-            _ball.DrawMe(_spriteBatch);
+            for (int i = 0; i < balls.Count; i++)
+            {
+
+                balls[i].DrawMe(_spriteBatch);
+
+            }
             bat.DrawMe(_spriteBatch);
 
             _spriteBatch.End();
@@ -498,7 +610,13 @@ namespace final_project_sem1
                 bricks_lv2[i].DrawMe(_spriteBatch);
 
             }
-            _ball.DrawMe(_spriteBatch);
+            for (int i = 0; i < balls.Count; i++)
+            {
+
+                balls[i].DrawMe(_spriteBatch);
+
+            }
+            
             bat.DrawMe(_spriteBatch);
 
             _spriteBatch.End();
@@ -508,6 +626,20 @@ namespace final_project_sem1
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            for (int i = 0; i < bricks_lv3.Count; i++)
+            {
+
+                bricks_lv3[i].DrawMe(_spriteBatch);
+
+            }
+            for (int i = 0; i < balls.Count; i++)
+            {
+                balls[i].DrawMe(_spriteBatch);  
+            }
+            
+
+            bat.DrawMe(_spriteBatch);
+            _spriteBatch.End();
 
         }
 

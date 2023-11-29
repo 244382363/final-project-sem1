@@ -20,20 +20,31 @@ namespace final_project_sem1
         public buttons(Texture2D spriteSheet, int xpos, int ypos, int frameCount, int fps, int an_button)
         {
             st_SpriteSheet = spriteSheet;
-            st_animCell = new Rectangle(0,0, st_SpriteSheet.Width / frameCount, spriteSheet.Height);
+            /*st_animCell = new Rectangle(0,0, st_SpriteSheet.Width / frameCount, spriteSheet.Height);
             st_position = new Vector2(xpos, ypos);
             st_frameTimer = 1;
-            st_fps = fps;
+            st_fps = fps;*/
 
             CollisionRect = new Rectangle(xpos, ypos,
                 st_SpriteSheet.Width / frameCount, spriteSheet.Height);
             if (an_button == 1)
             {
                 anim_button = true;
+                
+                st_animCell = new Rectangle(0, 0, st_SpriteSheet.Width / frameCount, spriteSheet.Height);
+                st_position = new Vector2(xpos, ypos);
+                st_frameTimer = 1;
+                st_fps = fps;
+
+                CollisionRect = new Rectangle(xpos, ypos,
+                    st_SpriteSheet.Width / frameCount, spriteSheet.Height);
             }
-            else
+            else if (an_button == 0)  
             {
                 anim_button = false;
+               
+                st_animCell = new Rectangle(0, 0, st_SpriteSheet.Width, spriteSheet.Height);
+                st_position = new Vector2(xpos, ypos);
             }
            
             //m1 = new MouseState();
@@ -74,7 +85,7 @@ namespace final_project_sem1
             {
                 if (CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
                 {
-                    sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White * 0.8f);
+                    sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White * 0.5f);
                 }
                 else
                 {
