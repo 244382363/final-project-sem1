@@ -21,7 +21,7 @@ namespace final_project_sem1
         }
 
         Point MAXSHAKE = new Point(8, 8);
-        
+
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
