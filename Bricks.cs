@@ -16,6 +16,7 @@ namespace final_project_sem1
         
         Vector2 _pos;
         public bool extra_ball_brick, fortify_brick;
+        public int brick_health;
 
 
         public Bricks(Texture2D txr, int xpos, int ypos,int mod_brick)
@@ -23,6 +24,8 @@ namespace final_project_sem1
             _txr = txr;
             _pos = new Vector2(xpos, ypos);
             _rect = new Rectangle(xpos, ypos, _txr.Width, _txr.Height);
+            
+            
 
             if(mod_brick == 1)
             {
@@ -35,10 +38,12 @@ namespace final_project_sem1
             if(mod_brick == 2)
             {
                 fortify_brick = true;
+                brick_health = 4;
             }
             else
             {
                 fortify_brick= false;
+                brick_health = 1;
             }
         }
 
