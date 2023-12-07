@@ -16,7 +16,7 @@ namespace final_project_sem1
         private float _rotation;
         private float _rotationSpeed;
         public bool is_selected;
-        public int skins_type;
+        public int skins_type,NOOF_bounces,Spaceship_health;
 
         // Class Constructors
         public ball(Texture2D txr, Vector2 startPos, Vector2 startVel, int skins_type)
@@ -26,6 +26,8 @@ namespace final_project_sem1
             _art = txr;
             Rect = new Rectangle(_position.ToPoint(), txr.Bounds.Size);
 
+            NOOF_bounces = 0;
+            Spaceship_health = 100;
             _rotation = 0;
             _rotationSpeed = _velocity.Length() / 32;
             if (skins_type == 1)
@@ -45,14 +47,26 @@ namespace final_project_sem1
             _rotation += _rotationSpeed;
 
             if (_position.X < bounds.Left || _position.X > bounds.Right)
+            {
                 _velocity.X *= -1;
+                NOOF_bounces += 1;
+            }
 
-            if (_position.Y < bounds.Top || _position.Y > bounds.Bottom)
+            if (_position.Y < bounds.Top) 
+            {
                 _velocity.Y *= -1;
+                NOOF_bounces += 1;
 
-            
+            }
+            if (_position.Y > bounds.Bottom)
+            {
+                _velocity.Y *= -1;
+                NOOF_bounces += 1;
+                Spaceship_health -= 1;
+            }
 
-            
+
+
 
             Rect = new Rectangle(_position.ToPoint() - _art.Bounds.Center, _art.Bounds.Size);
         }
@@ -63,7 +77,7 @@ namespace final_project_sem1
         {
             // sB.Draw(Art, Position, Color.White);
             sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
-            sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
+            //sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
         }
     }
 }
