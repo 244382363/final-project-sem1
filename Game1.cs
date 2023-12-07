@@ -45,7 +45,7 @@ namespace final_project_sem1
         List<ball> balls, balls_skin_select;
         ball _balls;
         Bat bat;
-        buttons st_button, bk_button, sk_button, nxt_button;
+        buttons st_button, bk_button, sk_button, nxt_button, htp_button;
         
 
 
@@ -285,6 +285,7 @@ namespace final_project_sem1
             bk_button = new buttons(Content.Load<Texture2D>("back_button"), 50, 850, 2, 24, 1);
             sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 800, 2, 24, 1);
             nxt_button = new buttons(Content.Load<Texture2D>("next_button"), 450, 700, 2, 24, 0);
+            htp_button = new buttons(Content.Load<Texture2D>("how_to_play_button"), 430, 675, 2, 24, 0);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
@@ -658,6 +659,7 @@ namespace final_project_sem1
             bgd1.DrawMe(_spriteBatch);
             st_button.DrawMe(_spriteBatch, gameTime);
             sk_button.DrawMe(_spriteBatch, gameTime);
+            htp_button.DrawMe(_spriteBatch, gameTime);
             _spriteBatch.DrawString(debugFont, "Res: " + _graphics.PreferredBackBufferWidth
                                               + " x " + _graphics.PreferredBackBufferHeight,
                                               Vector2.Zero, Color.White);

@@ -74,11 +74,16 @@ namespace final_project_sem1
                 else
                 {
 
-
+                    
 
                     st_frameTimer -= (float)gt.ElapsedGameTime.TotalSeconds * st_fps;
 
                 }
+                if (!CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                { st_animCell.X = 0;
+                    sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
+                }
+                else
                 sb.Draw(st_SpriteSheet, st_position, st_animCell, Color.White);
             }
             if (!anim_button)
