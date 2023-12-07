@@ -116,6 +116,18 @@
 /processorParam:TextureFormat=Color
 /build:brick_fortify.png
 
+#begin brick_glass.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:brick_glass.png
+
 #begin brick.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -140,6 +152,18 @@
 /processorParam:TextureFormat=Color
 /build:cut_scene1.png
 
+#begin extra_life_brick.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:extra_life_brick.png
+
 #begin game start screen.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -163,6 +187,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:how_to_play_button.png
+
+#begin htp_screen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:htp_screen.png
 
 #begin next_button.png
 /importer:TextureImporter

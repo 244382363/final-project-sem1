@@ -15,7 +15,7 @@ namespace final_project_sem1
         Texture2D _txr;
         
         Vector2 _pos;
-        public bool extra_ball_brick, fortify_brick;
+        public bool extra_ball_brick, fortify_brick, extra_life_brick, glass_brick;
         public int brick_health;
 
 
@@ -44,6 +44,23 @@ namespace final_project_sem1
             {
                 fortify_brick= false;
                 brick_health = 1;
+            }
+            if(mod_brick == 3)
+            {
+                extra_life_brick = true;
+                
+            }
+            else
+            {
+                extra_life_brick = false;
+            }
+            if(mod_brick == 4)
+            {
+                glass_brick = true;
+            }
+            else
+            {
+                glass_brick = false;
             }
         }
 
