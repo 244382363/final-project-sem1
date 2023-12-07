@@ -12,6 +12,7 @@ namespace final_project_sem1
         {
             St_screen,
             Skin_select,
+            Htp_screen,
             cut_scene1,
             Gameplayscreen_level1,
             Gameplayscreen_level2,
@@ -41,7 +42,7 @@ namespace final_project_sem1
         GameStates _currState;
         SpriteFont debugFont, GuideFont;
         background bgd1, bgd2, cut_scene1;
-        List<Bricks> bricks_lv1, bricks_lv2, bricks_lv3, bricks_lv4;
+        List<Bricks> bricks_htp, bricks_lv1, bricks_lv2, bricks_lv3, bricks_lv4;
         List<ball> balls, balls_skin_select;
         ball _balls;
         Bat bat;
@@ -77,6 +78,7 @@ namespace final_project_sem1
         protected override void Initialize()
         {
             _currState = GameStates.St_screen;
+            bricks_htp = new List<Bricks>();
             bricks_lv1 = new List<Bricks>();
             bricks_lv2 = new List<Bricks>();
             bricks_lv3 = new List<Bricks>();
@@ -120,6 +122,10 @@ namespace final_project_sem1
             //visibleScreen._txr = Content.Load<Texture2D>("viewable");
 
             pixel = Content.Load<Texture2D>("pixel");
+
+            //bricks for display in how to play screen
+            bricks_htp = new List<Bricks>();
+            bricks_htp.Add()
 
 
             //all the bricks for lv1
@@ -368,6 +374,9 @@ namespace final_project_sem1
                 case GameStates.Skin_select:
                     Skin_selectUpdate(_mouseState);
                     break;
+                case GameStates.Htp_screen:
+                    Htp_screenUpdate(_mouseState);
+                    break;
                 case GameStates.Gameplayscreen_level1:
                     GameplayscreenUpdate(_mouseState);
                     break;
@@ -403,6 +412,9 @@ namespace final_project_sem1
 
                 case GameStates.Skin_select:
                     Skin_selectDraw(gameTime);
+                    break;
+                case GameStates.Htp_screen:
+                    Htp_screenDraw(gameTime);
                     break;
                 case GameStates.Gameplayscreen_level1:
                     GameplayscreenDraw(gameTime);
@@ -461,6 +473,15 @@ namespace final_project_sem1
             }*/
                 
             
+        }
+
+        void Htp_screenUpdate(MouseState ms)
+        {
+            if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.St_screen;
+
+            }
         }
 
         void Cut_scene1Update(MouseState ms)
@@ -666,6 +687,19 @@ namespace final_project_sem1
 
             _spriteBatch.End();
 
+        }
+
+        void Htp_screenDraw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(debugFont, "You need to Control the barrier to avoid the asteroirds from hitting your space ship",
+                                             new Vector2(100, 50), Color.White);
+            _spriteBatch.DrawString(debugFont, , Color.White);
+
+
+            bk_button.DrawMe(_spriteBatch, gameTime);
+            _spriteBatch.End();
         }
 
         void Skin_selectDraw(GameTime gameTime)
