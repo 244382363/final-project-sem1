@@ -1,15 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 
 
 namespace final_project_sem1
 {
+
+    
     class ball
     {
-        public Vector2 _position;
+        
+        public Vector2 _position, _currpos;
         public Rectangle Rect;
-        private Texture2D _art;
+        public Texture2D _art;
         public Vector2 _velocity;
         float ballSpeed = 6;
 
@@ -21,10 +25,11 @@ namespace final_project_sem1
         // Class Constructors
         public ball(Texture2D txr, Vector2 startPos, Vector2 startVel, int skins_type)
         {
+            
             _position = startPos;
             _velocity = startVel;
             _art = txr;
-            Rect = new Rectangle(_position.ToPoint(), txr.Bounds.Size);
+            Rect = new Rectangle(_position.ToPoint() - _art.Bounds.Center,txr.Bounds.Size);
 
             NOOF_bounces = 0;
             Spaceship_health = 100;
@@ -40,6 +45,8 @@ namespace final_project_sem1
             }
         }
 
+       
+
         // Class Methods
         public void UpdateMe(Rectangle bounds)
         {
@@ -50,6 +57,7 @@ namespace final_project_sem1
             {
                 _velocity.X *= -1;
                 NOOF_bounces += 1;
+                _position += _currpos;
             }
 
             if (_position.Y < bounds.Top) 
@@ -64,6 +72,7 @@ namespace final_project_sem1
                 NOOF_bounces += 1;
                 Spaceship_health -= 1;
             }
+            _position += _currpos;
 
 
 
@@ -75,9 +84,16 @@ namespace final_project_sem1
 
         public void DrawMe(SpriteBatch sb)
         {
+            if (Rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+            {
+                sb.Draw(_art, _position, null, Color.White * 0.5f, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
+            }
+            else
+            {
+                sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
+            }
             // sB.Draw(Art, Position, Color.White);
-            sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
-            //sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
+            sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
         }
     }
 }
