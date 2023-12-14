@@ -15,6 +15,7 @@ namespace final_project_sem1
             Skin_select,
             Htp_screen,
             cut_scene1,
+            pause_screen,
             Gameplayscreen_level1,
             Gameplayscreen_level2,
             Gameplayscreen_level3,
@@ -449,7 +450,7 @@ namespace final_project_sem1
                     balls[i]._velocity.X *= +1;
                     balls[i]._velocity.Y *= -1;
                     balls[i].NOOF_bounces += 1;
-                    balls[i]._position.X = balls[i]._currpos.X;
+                    //balls[i]._position.X = balls[i]._currpos.X;
                 }
                 balls[i].UpdateMe(GraphicsDevice.Viewport.Bounds);
             }
@@ -467,6 +468,9 @@ namespace final_project_sem1
 
                 case GameStates.Skin_select:
                     Skin_selectUpdate(_mouseState);
+                    break;
+                case GameStates.pause_screen:
+                    pause_screenUpdate(_mouseState);
                     break;
                 case GameStates.Htp_screen:
                     Htp_screenUpdate(_mouseState);
@@ -543,6 +547,8 @@ namespace final_project_sem1
             base.Draw(gameTime);
         }
 
+        #region start_screen_update
+
         void St_screenUpdate(MouseState ms)
         {
             if (sk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
@@ -561,6 +567,9 @@ namespace final_project_sem1
 
             }
         }
+        #endregion
+
+        #region skin_select_update
         void Skin_selectUpdate(MouseState ms)
         {
             if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
@@ -583,6 +592,9 @@ namespace final_project_sem1
                 
             
         }
+        #endregion
+
+        #region how_to_play_screen_update
 
         void Htp_screenUpdate(MouseState ms)
         {
@@ -591,7 +603,20 @@ namespace final_project_sem1
                 _currState = GameStates.St_screen;
 
             }
+            
         }
+        #endregion
+        void pause_screenUpdate(MouseState ms)
+        {
+            if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.St_screen;
+
+            }
+        }
+
+
+        #region cut_scene_1_update
 
         void Cut_scene1Update(MouseState ms)
         {
@@ -601,6 +626,7 @@ namespace final_project_sem1
 
             }
         }
+        #endregion
 
         #region level1 update
         void GameplayscreenUpdate(MouseState ms)
@@ -675,6 +701,10 @@ namespace final_project_sem1
             {
                 _currState = GameStates.cut_scene1;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _currState = GameStates.pause_screen;
+            }
 
         }
         #endregion
@@ -711,6 +741,10 @@ namespace final_project_sem1
             if (bricks_lv2.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
             {
                 _currState = GameStates.Gameplayscreen_level3;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _currState = GameStates.pause_screen;
             }
         }
         #endregion
@@ -749,6 +783,10 @@ namespace final_project_sem1
             if (bricks_lv3.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.O))
             {
                 _currState = GameStates.Gameplayscreen_level4;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _currState = GameStates.pause_screen;
             }
         }
         #endregion
@@ -790,6 +828,10 @@ namespace final_project_sem1
             if (bricks_lv4.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.I))
             {
                 _currState = GameStates.Gameplayscreen_level5;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _currState = GameStates.pause_screen;
             }
         }
         #endregion
@@ -839,6 +881,10 @@ namespace final_project_sem1
                 }
 
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                _currState = GameStates.pause_screen;
+            }
         }
         #endregion
 
@@ -847,6 +893,7 @@ namespace final_project_sem1
 
 
 
+        #region startscreen_draw 
         void St_screenDraw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -863,7 +910,9 @@ namespace final_project_sem1
             _spriteBatch.End();
 
         }
+        #endregion
 
+        #region how to play screen 
         void Htp_screenDraw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -895,7 +944,9 @@ namespace final_project_sem1
             bk_button.DrawMe(_spriteBatch, gameTime);
             _spriteBatch.End();
         }
-
+        #endregion
+       
+        #region skin_select
         void Skin_selectDraw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -912,6 +963,9 @@ namespace final_project_sem1
 
             _spriteBatch.End();
         }
+        #endregion
+
+        #region gameplay_lv1 draw
         void GameplayscreenDraw(GameTime gameTime)
         {
             //_graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
@@ -949,6 +1003,10 @@ namespace final_project_sem1
          
             _spriteBatch.End();
         }
+        #endregion
+
+        #region Cut_scene_1_draw 
+
 
         void Cut_scene1Draw(GameTime gameTime)
         {
@@ -975,6 +1033,10 @@ namespace final_project_sem1
             _spriteBatch.End();
             oldkb = kb;
         }
+        #endregion
+
+        #region gameplay_lv2_draw
+
         void Gameplayscreen_level2_Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -1013,7 +1075,9 @@ namespace final_project_sem1
 
             _spriteBatch.End();
         }
+        #endregion
 
+        #region gameplay_lv3_draw
         void Gameplayscreen_level3_Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -1047,6 +1111,9 @@ namespace final_project_sem1
             _spriteBatch.End();
 
         }
+        #endregion
+
+        #region gameplay_lv4_draw
 
         void Gameplayscreen_level4_Draw(GameTime gameTime)
         {
@@ -1077,7 +1144,9 @@ namespace final_project_sem1
 
             _spriteBatch.End();
         }
+        #endregion
 
+        #region gameplay_lv5_draw
         void Gameplayscreen_level5_Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -1107,6 +1176,7 @@ namespace final_project_sem1
 
             _spriteBatch.End();
         }
+        #endregion
 
     }
 }
