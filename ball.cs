@@ -20,10 +20,10 @@ namespace final_project_sem1
         private float _rotation;
         private float _rotationSpeed;
         public bool is_selected;
-        public int skins_type,NOOF_bounces,Spaceship_health;
+        public int NOOF_bounces,Spaceship_health;
 
         // Class Constructors
-        public ball(Texture2D txr, Vector2 startPos, Vector2 startVel, int skins_type)
+        public ball(Texture2D txr, Vector2 startPos, Vector2 startVel)
         {
             
             _position = startPos;
@@ -35,14 +35,7 @@ namespace final_project_sem1
             Spaceship_health = 100;
             _rotation = 0;
             _rotationSpeed = _velocity.Length() / 32;
-            if (skins_type == 1)
-            {
-                is_selected = true;
-            }
-            else
-            {
-                is_selected = false;
-            }
+            
         }
 
        

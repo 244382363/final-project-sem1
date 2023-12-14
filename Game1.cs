@@ -47,12 +47,12 @@ namespace final_project_sem1
         GameStates _currState;
         
         SpriteFont debugFont, GuideFont;
-        background bgd3, bgd1, bgd2, cut_scene1;
+        background bgd3, bgd1, bgd2, gameplayscreen2, pause_screen, cut_scene1;
         List<Bricks> bricks_htp, bricks_lv1, bricks_lv2, bricks_lv3, bricks_lv4, bricks_lv5;
         List<ball> balls, balls_skin_select, balls_brick_spawn;
         ball _balls;
         Bat bat;
-        buttons st_button, bk_button, sk_button, nxt_button, htp_button;
+        buttons st_button, bk_button, sk_button, nxt_button, resum_button, htp_button;
         
 
 
@@ -364,15 +364,15 @@ namespace final_project_sem1
 
             Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 5,
                                                         (float)(RNG.NextDouble() * 2) - 10);
-            //balls.Add(new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel, 0));
-            balls.Add(new ball(Content.Load<Texture2D>("ball_1"), startPos, startVel, 1));
-            //balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), startPos, startVel, 0));
+            //balls.Add(new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel));
+            balls.Add(new ball(Content.Load<Texture2D>("ball_1"), startPos, startVel));
+            //balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), startPos, startVel));
 
 
             balls_skin_select = new List<ball>();
-            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_poke"), new Vector2(100, 50), new Vector2(0, 0), 0));
-            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_1"), new Vector2(200, 50), new Vector2(0, 0), 0));
-            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(300, 50), new Vector2(0, 0), 0));
+            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_poke"), new Vector2(100, 50), new Vector2(0, 0)));
+            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_1"), new Vector2(200, 50), new Vector2(0, 0)));
+            balls_skin_select.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(300, 50), new Vector2(0, 0)));
 
 
 
@@ -383,9 +383,14 @@ namespace final_project_sem1
             sk_button = new buttons(Content.Load<Texture2D>("skin_select_button"), 430, 800, 2, 24, 1);
             nxt_button = new buttons(Content.Load<Texture2D>("next_button"), 450, 700, 2, 24, 0);
             htp_button = new buttons(Content.Load<Texture2D>("how_to_play_button"), 430, 675, 2, 24, 0);
+            resum_button = new buttons(Content.Load<Texture2D>("resume_button"), 430, 675, 2, 24, 1);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bgd3 = new background(Content.Load<Texture2D>("htp_screen"));
+            pause_screen = new background(Content.Load<Texture2D>("Pause_screen"));
+            gameplayscreen2 = new background(Content.Load<Texture2D>("game_play_screen2_0"));
+
+
             cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
             bat = new Bat(Content.Load<Texture2D>("Bat_1"), 400, 900);
 
@@ -517,6 +522,9 @@ namespace final_project_sem1
                 case GameStates.Htp_screen:
                     Htp_screenDraw(gameTime);
                     break;
+                case GameStates.pause_screen:
+                    pause_screenDraw(gameTime);
+                    break;
                 case GameStates.Gameplayscreen_level1:
                     GameplayscreenDraw(gameTime);
                     break;
@@ -611,8 +619,14 @@ namespace final_project_sem1
             if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
                 _currState = GameStates.St_screen;
-
+                
             }
+            if (resum_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+
+                _currState = GameStates.Gameplayscreen_level1;
+            }
+
         }
 
 
@@ -704,6 +718,7 @@ namespace final_project_sem1
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 _currState = GameStates.pause_screen;
+                
             }
 
         }
@@ -761,7 +776,7 @@ namespace final_project_sem1
                         if (bricks_lv3[i].extra_ball_brick == true)
                         {
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv3[i]._rect.X, bricks_lv3[i]._rect.Y), new Vector2((float)5,
-                                                            (float)10),1));
+                                                            (float)10)));
                         }
                         balls[j]._velocity.X *= +1;
                         balls[j]._velocity.Y *= -1;
@@ -803,7 +818,7 @@ namespace final_project_sem1
                         if (bricks_lv4[i].extra_ball_brick == true)
                         {
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv4[i]._rect.X, bricks_lv4[i]._rect.Y), new Vector2((float)5,
-                                                            (float)10),1));
+                                                            (float)10)));
                         }
                         
 
@@ -848,7 +863,7 @@ namespace final_project_sem1
                         if (bricks_lv5[i].extra_ball_brick == true)
                         {
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv4[i]._rect.X, bricks_lv4[i]._rect.Y), new Vector2((float)5,
-                                                            (float)10), 1));
+                                                            (float)10)));
                         }
                         else if(bricks_lv5[i].extra_life_brick == true)
                         {
@@ -965,6 +980,21 @@ namespace final_project_sem1
         }
         #endregion
 
+        void pause_screenDraw(GameTime gameTime)
+        {
+
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            pause_screen.DrawMe(_spriteBatch);
+            resum_button.DrawMe(_spriteBatch, gameTime);
+            
+
+
+            bk_button.DrawMe(_spriteBatch, gameTime);
+
+            _spriteBatch.End();
+        }
+
         #region gameplay_lv1 draw
         void GameplayscreenDraw(GameTime gameTime)
         {
@@ -1041,6 +1071,7 @@ namespace final_project_sem1
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            gameplayscreen2.DrawMe(_spriteBatch);
             for (int i = 0; i < bricks_lv2.Count; i++)
             {
 
@@ -1050,17 +1081,11 @@ namespace final_project_sem1
             for (int i = 0; i < balls.Count; i++)
             {
 
-                if (balls[i].is_selected == true)
-                {
 
                     balls[i].DrawMe(_spriteBatch);
-                }
-                else if(balls[i].is_selected == false)
-                {
-                    balls.RemoveAt(i);
-                    break;
-                }
-
+                
+       
+                
             }
            
 
@@ -1071,6 +1096,7 @@ namespace final_project_sem1
                                               new Vector2(744, 950), Color.White);
             _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                               new Vector2(744, 970), Color.White);
+
 
 
             _spriteBatch.End();
@@ -1090,11 +1116,9 @@ namespace final_project_sem1
             }
             for (int i = 0; i < balls.Count; i++)
             {
-                if (balls[i].is_selected == true)
-                {
-
+                
                     balls[i].DrawMe(_spriteBatch);
-                }
+                
                 
             }
             
@@ -1127,11 +1151,10 @@ namespace final_project_sem1
             }
             for (int i = 0; i < balls.Count; i++)
             {
-                if (balls[i].is_selected == true)
-                {
+                
 
                     balls[i].DrawMe(_spriteBatch);
-                }
+                
             }
            
             bat.DrawMe( _spriteBatch);
@@ -1159,11 +1182,10 @@ namespace final_project_sem1
             }
             for (int i = 0; i < balls.Count; i++)
             {
-                if (balls[i].is_selected == true)
-                {
+                
 
                     balls[i].DrawMe(_spriteBatch);
-                }
+                
             }
             
             bat.DrawMe(_spriteBatch);
