@@ -25,13 +25,13 @@ namespace final_project_sem1
 
         public void UpdateMe(GamePadState pad)
         {
-            if (pad.ThumbSticks.Left.X < 0 && CollisionRect.X > 0)
+            if (pad.ThumbSticks.Left.X < 0 && CollisionRect.X > 0 || Keyboard.GetState().IsKeyDown(Keys.Left) && CollisionRect.X > 0)
             {
                 _goingRight = false;
                 CollisionRect.X -= (int)speed;
             }
 
-            else if (pad.ThumbSticks.Left.X > 0 && CollisionRect.X < 1024 - _txr.Width)
+            else if (pad.ThumbSticks.Left.X > 0 && CollisionRect.X < 1024 - _txr.Width || Keyboard.GetState().IsKeyDown(Keys.Right) && CollisionRect.X < 1024 - _txr.Width)
             {
                 _goingRight = true;
                 CollisionRect.X += (int)speed;

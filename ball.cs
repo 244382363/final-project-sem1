@@ -45,12 +45,12 @@ namespace final_project_sem1
         {
             _position += _velocity;
             _rotation += _rotationSpeed;
-
+            //if x position of the ball is less than left bound or greater than right bound
             if (_position.X < bounds.Left || _position.X > bounds.Right)
             {
                 _velocity.X *= -1;
                 NOOF_bounces += 1;
-                _position += _currpos;
+                
             }
 
             if (_position.Y < bounds.Top) 
