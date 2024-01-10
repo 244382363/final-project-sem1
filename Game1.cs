@@ -17,6 +17,7 @@ namespace final_project_sem1
             Htp_screen,
             cut_scene1,
             pause_screen,
+            game_overScreen,
             Gameplayscreen_level1,
             Gameplayscreen_level2,
             Gameplayscreen_level3,
@@ -48,12 +49,12 @@ namespace final_project_sem1
         GameStates _currState, _oldState;
         
         SpriteFont debugFont, GuideFont;
-        background bgd3, bgd1, bgd2, gameplayscreen2, pause_screen, cut_scene1;
+        background bgd3, bgd1, bgd2, gameplayscreen2, pause_screen, game_over_screen, cut_scene1;
         List<Bricks> bricks_htp, bricks_lv1, bricks_lv2, bricks_lv3, bricks_lv4, bricks_lv5;
         List<ball> balls, balls_skin_select, balls_brick_spawn;
         ball _balls;
         Bat bat;
-        buttons st_button, bk_button, sk_button, nxt_button, resum_button, htp_button;
+        buttons st_button, bk_button, sk_button, nxt_button, resum_button, bktomenu_button, htp_button;
         
 
 
@@ -385,11 +386,13 @@ namespace final_project_sem1
             nxt_button = new buttons(Content.Load<Texture2D>("next_button"), 450, 700, 2, 24, 0);
             htp_button = new buttons(Content.Load<Texture2D>("how_to_play_button"), 430, 675, 2, 24, 0);
             resum_button = new buttons(Content.Load<Texture2D>("resume_button"), 430, 675, 2, 24, 1);
+            bktomenu_button = new buttons(Content.Load<Texture2D>("bk_to_st_button"), 430, 675, 2, 24, 1);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bgd3 = new background(Content.Load<Texture2D>("htp_screen"));
             pause_screen = new background(Content.Load<Texture2D>("Pause_screen"));
             gameplayscreen2 = new background(Content.Load<Texture2D>("game_play_screen2_0"));
+            game_over_screen = new background(Content.Load<Texture2D>("game over screen"));
 
 
             cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
@@ -491,6 +494,9 @@ namespace final_project_sem1
                 case GameStates.Htp_screen:
                     Htp_screenUpdate(_mouseState);
                     break;
+                case GameStates.game_overScreen:
+                    game_overScreenUpdate(_mouseState);
+                    break;
                 case GameStates.Gameplayscreen_level1:
                     GameplayscreenUpdate(_mouseState);
                     break;
@@ -535,6 +541,9 @@ namespace final_project_sem1
                     break;
                 case GameStates.pause_screen:
                     pause_screenDraw(gameTime);
+                    break;
+                case GameStates.game_overScreen:
+                    game_overScreenDraw(gameTime);
                     break;
                 case GameStates.Gameplayscreen_level1:
                     GameplayscreenDraw(gameTime);
@@ -640,6 +649,16 @@ namespace final_project_sem1
 
         }
 
+        void game_overScreenUpdate(MouseState ms)
+        {
+
+            if (bktomenu_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.St_screen;
+
+            }
+        }
+
 
         #region cut_scene_1_update
 
@@ -715,8 +734,7 @@ namespace final_project_sem1
                             bricks_lv1.RemoveAt(i);
                             bricks_destroyed += 1;
                         }
-
-                        //Debug.WriteLine("Collision detected with brick at index " + i);
+                                           
                         break;
                     }
                 }
@@ -731,6 +749,10 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
                 
+            }
+            if(_balls.Spaceship_health <= 0)
+            {
+                _currState = GameStates.game_overScreen;
             }
 
         }
@@ -778,6 +800,10 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
+            if (_balls.Spaceship_health <= 0)
+            {
+                _currState = GameStates.game_overScreen;
+            }
         }
         #endregion
 
@@ -824,6 +850,10 @@ namespace final_project_sem1
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
+            }
+            if (_balls.Spaceship_health <= 0)
+            {
+                _currState = GameStates.game_overScreen;
             }
         }
         #endregion
@@ -875,6 +905,10 @@ namespace final_project_sem1
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
+            }
+            if (_balls.Spaceship_health <= 0)
+            {
+                _currState = GameStates.game_overScreen;
             }
         }
         #endregion
@@ -928,6 +962,10 @@ namespace final_project_sem1
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
+            }
+            if (_balls.Spaceship_health <= 0)
+            {
+                _currState = GameStates.game_overScreen;
             }
         }
         #endregion
@@ -1009,6 +1047,20 @@ namespace final_project_sem1
         }
         #endregion
 
+        #region game_over_screen
+
+        void game_overScreenDraw(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+            game_over_screen.DrawMe(_spriteBatch);
+            bktomenu_button.DrawMe(_spriteBatch, gameTime);
+
+            _spriteBatch.End();
+        }
+        #endregion
+
+
         void pause_screenDraw(GameTime gameTime)
         {
 
@@ -1045,7 +1097,7 @@ namespace final_project_sem1
             {
               
                    
-                        balls[i].DrawMe(_spriteBatch);
+                balls[i].DrawMe(_spriteBatch);
                    
             }
             _spriteBatch.DrawString(debugFont, "Bricks Destroyed: " + bricks_destroyed,
