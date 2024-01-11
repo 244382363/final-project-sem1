@@ -19,7 +19,7 @@ namespace final_project_sem1
         {
             _txr = txr;
             CollisionRect = new Rectangle(xPos, yPos, _txr.Width, _txr.Height);
-            speed = 8f;
+            speed = 12f;
         }
 
 

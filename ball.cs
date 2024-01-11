@@ -63,7 +63,7 @@ namespace final_project_sem1
             {
                 _velocity.Y *= -1;
                 NOOF_bounces += 1;
-                Spaceship_health -= 1;
+                Spaceship_health -= 10;
             }
             _position += _currpos;
 

@@ -27,7 +27,7 @@ namespace final_project_sem1
         }
         
 
-        Point MAXSHAKE = new Point(8, 8);
+        Point MAXSHAKE = new Point(20, 20);
 
 
         private GraphicsDeviceManager _graphics;
@@ -364,8 +364,7 @@ namespace final_project_sem1
             Vector2 startPos = new Vector2(GraphicsDevice.Viewport.Bounds.Center.X + RNG.Next(-100, 100),
                                                         GraphicsDevice.Viewport.Bounds.Center.Y + RNG.Next(-100, 100));
 
-            Vector2 startVel = new Vector2((float)(RNG.NextDouble() * 2) - 5,
-                                                        (float)(RNG.NextDouble() * 2) - 10);
+            Vector2 startVel = new Vector2(3f,9f);
             //balls.Add(new ball(Content.Load<Texture2D>("ball_poke"), startPos, startVel));
             balls.Add(new ball(Content.Load<Texture2D>("ball_1"), startPos, startVel));
             //balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), startPos, startVel));
@@ -386,7 +385,7 @@ namespace final_project_sem1
             nxt_button = new buttons(Content.Load<Texture2D>("next_button"), 450, 700, 2, 24, 0);
             htp_button = new buttons(Content.Load<Texture2D>("how_to_play_button"), 430, 675, 2, 24, 0);
             resum_button = new buttons(Content.Load<Texture2D>("resume_button"), 430, 675, 2, 24, 1);
-            bktomenu_button = new buttons(Content.Load<Texture2D>("bk_to_st_button"), 430, 675, 2, 24, 1);
+            bktomenu_button = new buttons(Content.Load<Texture2D>("bk_to_st_button"), 430, 775, 2, 24, 1);
             bgd1 = new background(Content.Load<Texture2D>("skin select screen"));
             bgd2 = new background(Content.Load<Texture2D>("game start screen"));
             bgd3 = new background(Content.Load<Texture2D>("htp_screen"));
@@ -448,13 +447,14 @@ namespace final_project_sem1
 
             
 
-            //ball collision for lv2
+            
             
 
 
 
             switch (_currState)
             {
+                //ball nad bat collision across all levels
                 case GameStates.Gameplayscreen_level1:
                 case GameStates.Gameplayscreen_level2:
                 case GameStates.Gameplayscreen_level3:
@@ -464,9 +464,11 @@ namespace final_project_sem1
                     {
                         if (balls[i].Rect.Intersects(bat.CollisionRect))
                         {
-
-                            balls[i]._velocity.X *= +1;
-                            balls[i]._velocity.Y *= -1;
+                            //the ball would bounce opposite way with a random velocity between 0 and 12
+                            int randInt = RNG.Next(1, 12);
+                            balls[i]._velocity = new Vector2((float)randInt * 1, (float)(12 - randInt) * -1);
+                            //balls[i]._velocity.X *= +1;
+                            //balls[i]._velocity.Y *= -1;
                             balls[i].NOOF_bounces += 1;
                             //balls[i]._position.X = balls[i]._currpos.X;
                         }
@@ -636,6 +638,7 @@ namespace final_project_sem1
         #endregion
         void pause_screenUpdate(MouseState ms)
         {
+            //this is the method for the pause screen with the buttons interactions
             if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
                 _currState = GameStates.St_screen;
@@ -675,7 +678,8 @@ namespace final_project_sem1
         #region level1 update
         void GameplayscreenUpdate(MouseState ms)
         {
-            /*for (int i = 0; i < bricks_lv1.Count; i++)
+            //function for the screen shake
+            for (int i = 0; i < bricks_lv1.Count; i++)
             {
                 if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
                 {
@@ -716,7 +720,7 @@ namespace final_project_sem1
                     }
                     #endregion
                 }
-            }*/
+            }
             //ball collision for lv1
             for (int i = 0; i < bricks_lv1.Count; i++)
             {
@@ -724,8 +728,10 @@ namespace final_project_sem1
                 {
                     if (bricks_lv1[i]._rect.Intersects(balls[j].Rect))
                     {
-                        balls[j]._velocity.X *= +1;
-                        balls[j]._velocity.Y *= -1;
+                        int randInt = RNG.Next(1, 12);
+                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
+                        //balls[j]._velocity.X *= +1;
+                        //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
 
                         bricks_lv1[i].brick_health -= 1;
@@ -742,7 +748,10 @@ namespace final_project_sem1
             }
             if (bricks_lv1.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
             {
+                balls.Clear();
                 _currState = GameStates.cut_scene1;
+                balls.Add(new ball(Content.Load<Texture2D>("ball_1"), new Vector2(350, 700), new Vector2((float)5,
+                                                            (float)10)));
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
@@ -763,14 +772,56 @@ namespace final_project_sem1
         {
             for (int i = 0; i < bricks_lv2.Count; i++)
             {
+                
+                if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
+                {
+                    if (bouncesLeft > 0) // Check to see if its got any bounces left to do
+                    {
+                            // Bounce to a random location
+                            CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                            // Decrease the bounces left
+                            bouncesLeft--;
+                    }
+                    else if (bricks_lv2[i]._rect.Intersects(balls[0].Rect))
+                    {
+                            // Start a shake by bouncing to a random location...
+                            CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                            bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
+                                                        //snore.Play(); // Play the sound effect
+                    }
+                }
+                else    // We're not in the correct position...
+                {
+ #region MOVE_BACK_TO_RESTING_POSITION // ... so work our way back to where we should be.
+                    if (CanvasLocation.X < 0)
+                    {
+                        CanvasLocation.X++;
+                    }
+                    else if (CanvasLocation.X > 0)
+                    {
+                        CanvasLocation.X--;
+                    }
 
+                    if (CanvasLocation.Y < 0)
+                    {
+                        CanvasLocation.Y++;
+                    }
+                    else if (CanvasLocation.Y > 0)
+                    {
+                        CanvasLocation.Y--;
+                    }
+  #endregion
+                }
+                
                 for (int j = 0; j < balls.Count; j++)
                 {
 
                     if (bricks_lv2[i]._rect.Intersects(balls[j].Rect))
                     {
-                        balls[j]._velocity.X *= +1;
-                        balls[j]._velocity.Y *= -1;
+                        int randInt = RNG.Next(1, 12);
+                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
+                        //balls[j]._velocity.X *= +1;
+                        //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
 
                         bricks_lv2[i].brick_health -= 1;
@@ -800,7 +851,7 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (_balls.Spaceship_health <= 0)
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
             }
@@ -812,6 +863,45 @@ namespace final_project_sem1
         {
             for (int i = 0; i < bricks_lv3.Count; i++)
             {
+                if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
+                {
+                    if (bouncesLeft > 0) // Check to see if its got any bounces left to do
+                    {
+                        // Bounce to a random location
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        // Decrease the bounces left
+                        bouncesLeft--;
+                    }
+                    else if (bricks_lv3[i]._rect.Intersects(balls[0].Rect))
+                    {
+                        // Start a shake by bouncing to a random location...
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
+                                                    //snore.Play(); // Play the sound effect
+                    }
+                }
+                else    // We're not in the correct position...
+                {
+                    #region MOVE_BACK_TO_RESTING_POSITION // ... so work our way back to where we should be.
+                    if (CanvasLocation.X < 0)
+                    {
+                        CanvasLocation.X++;
+                    }
+                    else if (CanvasLocation.X > 0)
+                    {
+                        CanvasLocation.X--;
+                    }
+
+                    if (CanvasLocation.Y < 0)
+                    {
+                        CanvasLocation.Y++;
+                    }
+                    else if (CanvasLocation.Y > 0)
+                    {
+                        CanvasLocation.Y--;
+                    }
+                    #endregion
+                }
                 for (int j = 0; j < balls.Count; j++)
                 {
                     if (bricks_lv3[i]._rect.Intersects(balls[j].Rect))
@@ -821,8 +911,10 @@ namespace final_project_sem1
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv3[i]._rect.X, bricks_lv3[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
-                        balls[j]._velocity.X *= +1;
-                        balls[j]._velocity.Y *= -1;
+                        int randInt = RNG.Next(1, 12);
+                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
+                        //balls[j]._velocity.X *= +1;
+                        //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
 
                         bricks_lv3[i].brick_health -= 1;
@@ -851,7 +943,7 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (_balls.Spaceship_health <= 0)
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
             }
@@ -863,6 +955,45 @@ namespace final_project_sem1
         {
             for (int i = 0; i < bricks_lv4.Count; i++)
             {
+                if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
+                {
+                    if (bouncesLeft > 0) // Check to see if its got any bounces left to do
+                    {
+                        // Bounce to a random location
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        // Decrease the bounces left
+                        bouncesLeft--;
+                    }
+                    else if (bricks_lv4[i]._rect.Intersects(balls[0].Rect))
+                    {
+                        // Start a shake by bouncing to a random location...
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
+                                                    //snore.Play(); // Play the sound effect
+                    }
+                }
+                else    // We're not in the correct position...
+                {
+                    #region MOVE_BACK_TO_RESTING_POSITION // ... so work our way back to where we should be.
+                    if (CanvasLocation.X < 0)
+                    {
+                        CanvasLocation.X++;
+                    }
+                    else if (CanvasLocation.X > 0)
+                    {
+                        CanvasLocation.X--;
+                    }
+
+                    if (CanvasLocation.Y < 0)
+                    {
+                        CanvasLocation.Y++;
+                    }
+                    else if (CanvasLocation.Y > 0)
+                    {
+                        CanvasLocation.Y--;
+                    }
+                    #endregion
+                }
                 for (int j = 0; j < balls.Count; j++)
                 {
                     if (bricks_lv4[i]._rect.Intersects(balls[j].Rect))
@@ -872,10 +1003,11 @@ namespace final_project_sem1
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv4[i]._rect.X, bricks_lv4[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
-                        
+                        int randInt = RNG.Next(1, 12);
+                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
 
-                        balls[j]._velocity.X *= +1;
-                        balls[j]._velocity.Y *= -1;
+                        //balls[j]._velocity.X *= +1;
+                        //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
 
                         bricks_lv4[i].brick_health -= 1;
@@ -906,7 +1038,7 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (_balls.Spaceship_health <= 0)
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
             }
@@ -918,10 +1050,50 @@ namespace final_project_sem1
         {
             for (int i = 0; i < bricks_lv5.Count; i++)
             {
+                if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
+                {
+                    if (bouncesLeft > 0) // Check to see if its got any bounces left to do
+                    {
+                        // Bounce to a random location
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        // Decrease the bounces left
+                        bouncesLeft--;
+                    }
+                    else if (bricks_lv5[i]._rect.Intersects(balls[0].Rect))
+                    {
+                        // Start a shake by bouncing to a random location...
+                        CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
+                        bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
+                                                    //snore.Play(); // Play the sound effect
+                    }
+                }
+                else    // We're not in the correct position...
+                {
+                    #region MOVE_BACK_TO_RESTING_POSITION // ... so work our way back to where we should be.
+                    if (CanvasLocation.X < 0)
+                    {
+                        CanvasLocation.X++;
+                    }
+                    else if (CanvasLocation.X > 0)
+                    {
+                        CanvasLocation.X--;
+                    }
+
+                    if (CanvasLocation.Y < 0)
+                    {
+                        CanvasLocation.Y++;
+                    }
+                    else if (CanvasLocation.Y > 0)
+                    {
+                        CanvasLocation.Y--;
+                    }
+                    #endregion
+                }
                 for (int j = 0; j < balls.Count; j++)
                 {
                     if (bricks_lv5[i]._rect.Intersects(balls[j].Rect))
                     {
+
                         if (bricks_lv5[i].extra_ball_brick == true)
                         {
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv5[i]._rect.X, bricks_lv5[i]._rect.Y), new Vector2((float)5,
@@ -929,13 +1101,14 @@ namespace final_project_sem1
                         }
                         else if(bricks_lv5[i].extra_life_brick == true)
                         {
-                            balls[j].Spaceship_health += 1;
+                            balls[j].Spaceship_health += 5;
                         }
-                        
 
 
-                        balls[j]._velocity.X *= +1;
-                        balls[j]._velocity.Y *= -1;
+                        int randInt = RNG.Next(1, 12);
+                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
+                        //balls[j]._velocity.X *= +1;
+                        //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
 
                         if (bricks_lv5[i].glass_brick == true)
@@ -963,7 +1136,7 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (_balls.Spaceship_health <= 0)
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
             }
@@ -1079,8 +1252,8 @@ namespace final_project_sem1
         #region gameplay_lv1 draw
         void GameplayscreenDraw(GameTime gameTime)
         {
-            //_graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
-            GraphicsDevice.Clear(Color.Black);
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
+            GraphicsDevice.Clear(Color.SkyBlue);
             _spriteBatch.Begin();
             // go through the backgrounds, drawing each one in its position
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
@@ -1106,13 +1279,19 @@ namespace final_project_sem1
                                               new Vector2(744, 950), Color.White);
             _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                               new Vector2(744, 970), Color.White);
-             
+            _spriteBatch.DrawString(debugFont, "Velocity " + balls[0]._velocity,
+                                              new Vector2(144, 970), Color.White);
 
 
 
-           bat.DrawMe(_spriteBatch);
+            bat.DrawMe(_spriteBatch);
+            _spriteBatch.End();
+            //base.Draw(gameTime);
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(DrawCanvas, CanvasLocation, Color.White);
 
-         
+          
             _spriteBatch.End();
         }
         #endregion
@@ -1151,6 +1330,7 @@ namespace final_project_sem1
 
         void Gameplayscreen_level2_Draw(GameTime gameTime)
         {
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             gameplayscreen2.DrawMe(_spriteBatch);
@@ -1178,9 +1358,16 @@ namespace final_project_sem1
                                               new Vector2(744, 950), Color.White);
             _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                               new Vector2(744, 970), Color.White);
+            _spriteBatch.DrawString(debugFont, "Velocity " + balls[0]._velocity,
+                                              new Vector2(144, 970), Color.White);
 
 
 
+
+            _spriteBatch.End();
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(DrawCanvas, CanvasLocation, Color.White);
             _spriteBatch.End();
         }
         #endregion
@@ -1188,6 +1375,7 @@ namespace final_project_sem1
         #region gameplay_lv3_draw
         void Gameplayscreen_level3_Draw(GameTime gameTime)
         {
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             for (int i = 0; i < bricks_lv3.Count; i++)
@@ -1201,9 +1389,9 @@ namespace final_project_sem1
 
                     _spriteBatch.DrawString(debugFont, "Bricks Destroyed: " + bricks_destroyed,
                                                  new Vector2(744, 930), Color.White);
-                    _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[j].NOOF_bounces,
+                    _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[0].NOOF_bounces,
                                                       new Vector2(744, 950), Color.White);
-                    _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[j].Spaceship_health,
+                    _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                                       new Vector2(744, 970), Color.White);
 
                 }
@@ -1228,6 +1416,10 @@ namespace final_project_sem1
             
 
             _spriteBatch.End();
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(DrawCanvas, CanvasLocation, Color.White);
+            _spriteBatch.End();
 
         }
         #endregion
@@ -1236,6 +1428,7 @@ namespace final_project_sem1
 
         void Gameplayscreen_level4_Draw(GameTime gameTime)
         {
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             for (int i = 0; i < bricks_lv4.Count; i++)
@@ -1251,15 +1444,18 @@ namespace final_project_sem1
                     balls[i].DrawMe(_spriteBatch);
                 _spriteBatch.DrawString(debugFont, "Bricks Destroyed: " + bricks_destroyed,
                                               new Vector2(744, 930), Color.White);
-                _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[i].NOOF_bounces,
+                _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[0].NOOF_bounces,
                                                   new Vector2(744, 950), Color.White);
-                _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[i].Spaceship_health,
+                _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                                   new Vector2(744, 970), Color.White);
             }
            
             bat.DrawMe( _spriteBatch);
             
-
+            _spriteBatch.End();
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(DrawCanvas, CanvasLocation, Color.White);
             _spriteBatch.End();
         }
         #endregion
@@ -1267,6 +1463,7 @@ namespace final_project_sem1
         #region gameplay_lv5_draw
         void Gameplayscreen_level5_Draw(GameTime gameTime)
         {
+            _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
             for (int i = 0; i < bricks_lv5.Count; i++)
@@ -1282,14 +1479,20 @@ namespace final_project_sem1
                     balls[i].DrawMe(_spriteBatch);
                 _spriteBatch.DrawString(debugFont, "Bricks Destroyed: " + bricks_destroyed,
                                              new Vector2(744, 930), Color.White);
-                _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[i].NOOF_bounces,
+                _spriteBatch.DrawString(debugFont, "Number of Bounces: " + balls[0].NOOF_bounces,
                                                   new Vector2(744, 950), Color.White);
-                _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[i].Spaceship_health,
+                _spriteBatch.DrawString(debugFont, "SpaceShip's Health: " + balls[0].Spaceship_health,
                                                   new Vector2(744, 970), Color.White);
             }
             
             bat.DrawMe(_spriteBatch);
            
+
+            _spriteBatch.End();
+            _graphics.GraphicsDevice.SetRenderTarget(null);
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(DrawCanvas, CanvasLocation, Color.White);
+
 
             _spriteBatch.End();
         }
