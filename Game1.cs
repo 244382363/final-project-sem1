@@ -750,7 +750,7 @@ namespace final_project_sem1
                 _currState = GameStates.pause_screen;
                 
             }
-            if(_balls.Spaceship_health <= 0)
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
             }
