@@ -55,7 +55,8 @@ namespace final_project_sem1
         ball _balls;
         Bat bat;
         buttons st_button, bk_button, sk_button, nxt_button, resum_button, bktomenu_button, htp_button;
-        
+        SoundEffect ring_deo1, ring_deo2;
+
 
 
 
@@ -397,6 +398,9 @@ namespace final_project_sem1
             cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
             bat = new Bat(Content.Load<Texture2D>("Bat_1"), 400, 900);
 
+            ring_deo1 = Content.Load<SoundEffect>("deo 1");
+            ring_deo2 = Content.Load<SoundEffect>("deo 2");
+
 
         }
         public void GetBricks()
@@ -728,12 +732,12 @@ namespace final_project_sem1
                 {
                     if (bricks_lv1[i]._rect.Intersects(balls[j].Rect))
                     {
-                        int randInt = RNG.Next(1, 12);
+                        int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
-
+                        ring_deo1.Play();
                         bricks_lv1[i].brick_health -= 1;
                         if (bricks_lv1[i].brick_health <= 0)
                         {
@@ -818,12 +822,12 @@ namespace final_project_sem1
 
                     if (bricks_lv2[i]._rect.Intersects(balls[j].Rect))
                     {
-                        int randInt = RNG.Next(1, 12);
+                        int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
-
+                        ring_deo1.Play();
                         bricks_lv2[i].brick_health -= 1;
                         if (bricks_lv2[i].brick_health <= 0)
                         {
@@ -908,15 +912,16 @@ namespace final_project_sem1
                     {
                         if (bricks_lv3[i].extra_ball_brick == true)
                         {
+                            ring_deo2.Play();
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv3[i]._rect.X, bricks_lv3[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
-                        int randInt = RNG.Next(1, 12);
+                        int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
-
+                        ring_deo1.Play();
                         bricks_lv3[i].brick_health -= 1;
                         if (bricks_lv3[i].brick_health <= 0)
                         {
@@ -1003,13 +1008,13 @@ namespace final_project_sem1
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv4[i]._rect.X, bricks_lv4[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
-                        int randInt = RNG.Next(1, 12);
+                        int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
 
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
-
+                        ring_deo1.Play();
                         bricks_lv4[i].brick_health -= 1;
                         if (bricks_lv4[i].brick_health <= 0)
                         {
@@ -1105,12 +1110,12 @@ namespace final_project_sem1
                         }
 
 
-                        int randInt = RNG.Next(1, 12);
+                        int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
-
+                        ring_deo1.Play();
                         if (bricks_lv5[i].glass_brick == true)
                         {
                             balls[j]._velocity.X *= +1;

@@ -176,6 +176,18 @@
 /processorParam:TextureFormat=Color
 /build:cut_scene1.png
 
+#begin deo 1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:deo 1.wav
+
+#begin deo 2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:deo 2.wav
+
 #begin extra_life_brick.png
 /importer:TextureImporter
 /processor:TextureProcessor
