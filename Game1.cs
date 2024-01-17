@@ -118,34 +118,8 @@ namespace final_project_sem1
             base.Initialize();
         }
 
-        protected override void LoadContent()
+        void setupLevel1()    //methods that stores all the bricks in level1
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            GuideFont = Content.Load<SpriteFont>("Ariel07");
-            //testInput = new InputBox(Content.Load<Texture2D>("TextboxUI"), Content.Load<SpriteFont>("UIFont"));
-            debugFont = Content.Load<SpriteFont>("Ariel07");
-            // Go through the backgrounds one by one and set up their textures
-            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
-            {
-                bgds[i]._txr = Content.Load<Texture2D>("sc_bgd" + i);
-            }
-
-            // Load the visible area overlay
-            //visibleScreen._txr = Content.Load<Texture2D>("viewable");
-
-            pixel = Content.Load<Texture2D>("pixel");
-
-            //bricks for display in how to play screen
-            bricks_htp = new List<Bricks>();
-            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick"), 190, 250, 0));
-            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 190, 350, 0));
-            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_fortify"), 190, 450, 0));
-            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 190, 550, 0));
-            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("extra_life_brick"), 190, 650, 0));
-
-            //all the bricks for lv1
-            #region bricks_lv1 
-            bricks_lv1 = new List<Bricks>();
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70, 0));
@@ -197,12 +171,9 @@ namespace final_project_sem1
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 95, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 95, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 95, 0));
-            #endregion  //all the bricks for lv1
-
-
-            //all the bricks for lv2
-            #region          bricks_lv2   
-            bricks_lv2 = new List<Bricks>();
+        } 
+        void setupLevel2()    //methods that stores all the bricks in level2
+        {
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 180, 70, 0));
@@ -226,12 +197,9 @@ namespace final_project_sem1
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 330, 95, 0));
-            #endregion
-
-            //all the bricks for lv3
-            #region bricks_lv3
-
-            bricks_lv3 = new List<Bricks>();
+        } 
+        void setupLevel3()    //methods that stores all the bricks in level3
+        {
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 180, 70, 1));
@@ -255,11 +223,9 @@ namespace final_project_sem1
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 230, 95, 0));
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick"), 280, 95, 0));
             bricks_lv3.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 330, 95, 1));
-            #endregion
-            //all the bricks for lv4
-            #region bricks_lv4
-
-            bricks_lv4 = new List<Bricks>();
+        }   
+        void setupLevel4()    //methods that stores all the bricks in level4
+        {
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 180, 70, 1));
@@ -289,12 +255,9 @@ namespace final_project_sem1
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick_fortify"), 480, 120, 2));
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick_fortify"), 530, 120, 2));
             bricks_lv4.Add(new Bricks(Content.Load<Texture2D>("brick_fortify"), 580, 120, 2));
-            #endregion
-
-            //all the bricks for lv5
-            #region bricks_lv5
-
-            bricks_lv5 = new List<Bricks>();
+        }
+        void setupLevel5()    //methods that stores all the bricks in level5
+        {
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick"), 130, 70, 0));
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 180, 70, 1));
@@ -356,6 +319,63 @@ namespace final_project_sem1
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 630, 420, 4));
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 680, 420, 4));
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 730, 420, 4));
+        }
+
+        protected override void LoadContent()
+        {
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            GuideFont = Content.Load<SpriteFont>("Ariel07");
+            //testInput = new InputBox(Content.Load<Texture2D>("TextboxUI"), Content.Load<SpriteFont>("UIFont"));
+            debugFont = Content.Load<SpriteFont>("Ariel07");
+            // Go through the backgrounds one by one and set up their textures
+            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
+            {
+                bgds[i]._txr = Content.Load<Texture2D>("sc_bgd" + i);
+            }
+
+            // Load the visible area overlay
+            //visibleScreen._txr = Content.Load<Texture2D>("viewable");
+
+            pixel = Content.Load<Texture2D>("pixel");
+
+            //bricks for display in how to play screen
+            bricks_htp = new List<Bricks>();
+            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick"), 190, 250, 0));
+            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_ball_spawn"), 190, 350, 0));
+            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_fortify"), 190, 450, 0));
+            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 190, 550, 0));
+            bricks_htp.Add(new Bricks(Content.Load<Texture2D>("extra_life_brick"), 190, 650, 0));
+
+            //all the bricks for lv1
+            #region bricks_lv1 
+           
+            setupLevel1();
+            #endregion  //all the bricks for lv1
+
+
+            //all the bricks for lv2
+            #region          bricks_lv2   
+            setupLevel2();
+            #endregion
+
+            //all the bricks for lv3
+            #region bricks_lv3
+            setupLevel3();
+
+
+            #endregion
+            //all the bricks for lv4
+            #region bricks_lv4
+
+            setupLevel4();
+
+            #endregion
+
+            //all the bricks for lv5
+            #region bricks_lv5
+
+            setupLevel5();
+            
             #endregion
 
 
@@ -403,10 +423,7 @@ namespace final_project_sem1
 
 
         }
-        public void GetBricks()
-        {
-
-        }
+       
 
 
 
@@ -682,6 +699,15 @@ namespace final_project_sem1
         #region level1 update
         void GameplayscreenUpdate(MouseState ms)
         {
+            //if statements that sets the Y velocity of the ball to be over 5 and below -5
+            if ((balls[0]._velocity.Y < 5) && (balls[0]._velocity.Y > 0))
+            {
+                balls[0]._velocity.Y = 5;
+            }
+            if ((balls[0]._velocity.Y > -5) && (balls[0]._velocity.Y < 0))
+            {
+                balls[0]._velocity.Y = -5;
+            }
             //function for the screen shake
             for (int i = 0; i < bricks_lv1.Count; i++)
             {
@@ -767,10 +793,8 @@ namespace final_project_sem1
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
-                for (int i = 0; i < bricks_lv1.Count; i++)
-                {
-
-                }
+                bricks_lv1.Clear();
+                setupLevel1();
             }
 
         }
@@ -779,6 +803,15 @@ namespace final_project_sem1
         #region level2 update
         void Gameplayscreen_lv2Update(MouseState ms)
         {
+            //if statements that sets the Y velocity of the ball to be over 5 and below -5
+            if ((balls[0]._velocity.Y < 5) && (balls[0]._velocity.Y > 0))
+            {
+                balls[0]._velocity.Y = 5;
+            }
+            if ((balls[0]._velocity.Y > -5) && (balls[0]._velocity.Y < 0))
+            {
+                balls[0]._velocity.Y = -5;
+            }
             for (int i = 0; i < bricks_lv2.Count; i++)
             {
                 
@@ -864,6 +897,8 @@ namespace final_project_sem1
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
+                bricks_lv2.Clear();
+                setupLevel2();
             }
         }
         #endregion
@@ -871,6 +906,15 @@ namespace final_project_sem1
         #region level3 update
         void Gameplayscreen_lv3Update(MouseState ms)
         {
+            //if statements that sets the Y velocity of the ball to be over 5 and below -5
+            if ((balls[0]._velocity.Y < 5) && (balls[0]._velocity.Y > 0))
+            {
+                balls[0]._velocity.Y = 5;
+            }
+            if ((balls[0]._velocity.Y > -5) && (balls[0]._velocity.Y < 0))
+            {
+                balls[0]._velocity.Y = -5;
+            }
             for (int i = 0; i < bricks_lv3.Count; i++)
             {
                 if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
@@ -958,6 +1002,8 @@ namespace final_project_sem1
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
+                bricks_lv3.Clear();
+                setupLevel3();
             }
         }
         #endregion
@@ -965,6 +1011,15 @@ namespace final_project_sem1
         #region level_4 update
         void Gameplayscreen_lv4Update(MouseState ms)
         {
+            //if statements that sets the Y velocity of the ball to be over 5 and below -5
+            if ((balls[0]._velocity.Y < 5) && (balls[0]._velocity.Y > 0))
+            {
+                balls[0]._velocity.Y = 5;
+            }
+            if ((balls[0]._velocity.Y > -5) && (balls[0]._velocity.Y < 0))
+            {
+                balls[0]._velocity.Y = -5;
+            }
             for (int i = 0; i < bricks_lv4.Count; i++)
             {
                 if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
@@ -1015,7 +1070,7 @@ namespace final_project_sem1
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv4[i]._rect.X, bricks_lv4[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
-                        int randInt = RNG.Next(3, 12);
+                        int randInt = RNG.Next(3, 12);//ball bounces with a new velocity
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
 
                         //balls[j]._velocity.X *= +1;
@@ -1054,6 +1109,9 @@ namespace final_project_sem1
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
+                bricks_lv4.Clear();
+                setupLevel4();
+
             }
         }
         #endregion
@@ -1061,6 +1119,15 @@ namespace final_project_sem1
         #region level_5 update
         void Gameplayscreen_lv5Update(MouseState ms)
         {
+            //if statements that sets the Y velocity of the ball to be over 5 and below -5
+            if ((balls[0]._velocity.Y < 5) && (balls[0]._velocity.Y > 0))
+            {
+                balls[0]._velocity.Y = 5;
+            }
+            if ((balls[0]._velocity.Y > -5) && (balls[0]._velocity.Y < 0))
+            {
+                balls[0]._velocity.Y = -5;
+            }
             for (int i = 0; i < bricks_lv5.Count; i++)
             {
                 if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
@@ -1109,28 +1176,33 @@ namespace final_project_sem1
 
                         if (bricks_lv5[i].extra_ball_brick == true)
                         {
+                            ring_deo2.Play();
                             balls.Add(new ball(Content.Load<Texture2D>("ball_ord"), new Vector2(bricks_lv5[i]._rect.X, bricks_lv5[i]._rect.Y), new Vector2((float)5,
                                                             (float)10)));
                         }
                         else if(bricks_lv5[i].extra_life_brick == true)
                         {
+                            ring_deo2.Play();
                             balls[j].Spaceship_health += 5;
                         }
+                        if (bricks_lv5[i].glass_brick == true)
+                        {
+                            ring_deo2.Play();
+
+                        }
+                        else
+                        {
+                            int randInt = RNG.Next(3, 12);
+                            balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
+                        }
+                        bricks_lv5[i].brick_health -= 1;
 
 
-                        int randInt = RNG.Next(3, 12);
-                        balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
                         balls[j].NOOF_bounces += 1;
                         ring_deo1.Play();
-                        if (bricks_lv5[i].glass_brick == true)
-                        {
-                            balls[j]._velocity.X *= +1;
-                            balls[j]._velocity.Y *= -1;
-                        }
-
-                        bricks_lv5[i].brick_health -= 1;
+                        
                         if (bricks_lv5[i].brick_health <= 0)
                         {
                             bricks_lv5.RemoveAt(i);
@@ -1149,10 +1221,15 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
+            ///if health reaches 0, game states changes to game over screen and the level will resetback
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
+                balls.Clear();
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
+                bricks_lv5.Clear();
+                setupLevel5();
+
             }
         }
         #endregion
@@ -1248,7 +1325,7 @@ namespace final_project_sem1
         #endregion
 
 
-        void pause_screenDraw(GameTime gameTime)
+        void pause_screenDraw(GameTime gameTime)///method that draws the pause screen
         {
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -1264,7 +1341,7 @@ namespace final_project_sem1
         }
 
         #region gameplay_lv1 draw
-        void GameplayscreenDraw(GameTime gameTime)
+        void GameplayscreenDraw(GameTime gameTime)///draw method for game 1
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.SkyBlue);
@@ -1313,7 +1390,7 @@ namespace final_project_sem1
         #region Cut_scene_1_draw 
 
 
-        void Cut_scene1Draw(GameTime gameTime)
+        void Cut_scene1Draw(GameTime gameTime) ///draw method for the cut scene after completing level 1
         {
             kb = Keyboard.GetState();
             GraphicsDevice.Clear(Color.Black);
@@ -1341,7 +1418,14 @@ namespace final_project_sem1
         #endregion
 
         #region gameplay_lv2_draw
-
+        
+        /// draw method for level 2 game play screen
+        /// initialise the function for screen shake
+        /// draws background
+        /// draws bricks
+        /// draws ball
+        /// draws the texts for stats
+        /// <param name="gameTime"></param>
         void Gameplayscreen_level2_Draw(GameTime gameTime)
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
@@ -1387,6 +1471,13 @@ namespace final_project_sem1
         #endregion
 
         #region gameplay_lv3_draw
+        /// draw method for gameplay screen level 3
+        /// draws the virtual screen for screen shake
+        /// draws background
+        /// draws bricks
+        /// draws ball
+        /// draws the display texts for the stats
+        /// <param name="gameTime"></param>
         void Gameplayscreen_level3_Draw(GameTime gameTime)
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
@@ -1439,7 +1530,13 @@ namespace final_project_sem1
         #endregion
 
         #region gameplay_lv4_draw
-
+        /// draw method for gameplay screen level 4
+        /// draws the virtual screen for screen shake
+        /// draws background
+        /// draws bricks
+        /// draws ball
+        /// draws the display texts for the stats
+        /// <param name="gameTime"></param>
         void Gameplayscreen_level4_Draw(GameTime gameTime)
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
@@ -1475,6 +1572,13 @@ namespace final_project_sem1
         #endregion
 
         #region gameplay_lv5_draw
+        /// draws method for gameplay screen level 5
+        /// draws the virtual screen for screen shake
+        /// draws background
+        /// draws bricks
+        /// draws ball
+        /// draws the display texts for the stats
+        /// <param name="gameTime"></param>
         void Gameplayscreen_level5_Draw(GameTime gameTime)
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
