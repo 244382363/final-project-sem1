@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.BitmapFonts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Security;
 
 namespace final_project_sem1
 {
@@ -897,12 +899,12 @@ namespace final_project_sem1
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q)) // if health reaches 0 seitch to game over screen
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q)) // if health reaches 0 switch to game over screen
             {
                 _currState = GameStates.game_overScreen;
-                balls[0].Spaceship_health = 100;
-                bricks_lv2.Clear();
-                setupLevel2();
+                balls[0].Spaceship_health = 100; //sets health back to 100
+                bricks_lv2.Clear(); //clear all the bricks
+                setupLevel2();//resets the bricks
             }
         }
         #endregion
@@ -989,7 +991,7 @@ namespace final_project_sem1
                     }
                 }
             }
-            if (bricks_lv3.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.O))
+            if (bricks_lv3.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.O))// when all the bricks are destroyed sends player to level 4 gameplay screen
             {
                 balls.Clear();
                 _currState = GameStates.Gameplayscreen_level4;
@@ -997,17 +999,17 @@ namespace final_project_sem1
                                                             (float)10)));
 
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))//when space pressed, send player to pause screen
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q)) // when health reaches 0 sends player to game over screen
             {
                 _currState = GameStates.game_overScreen;
-                balls[0].Spaceship_health = 100;
-                bricks_lv3.Clear();
-                setupLevel3();
+                balls[0].Spaceship_health = 100; //sets health back to 100
+                bricks_lv3.Clear();//clear the bricks
+                setupLevel3();//reset the bricks
             }
         }
         #endregion
@@ -1067,7 +1069,7 @@ namespace final_project_sem1
                 }
                 for (int j = 0; j < balls.Count; j++)
                 {
-                    if (bricks_lv4[i]._rect.Intersects(balls[j].Rect))
+                    if (bricks_lv4[i]._rect.Intersects(balls[j].Rect))//if the bricks collided with the ball is extra_ball_spawn bricks, the brick will disappear and a new ball will spawn at the place where the brick is destroyed
                     {
                         if (bricks_lv4[i].extra_ball_brick == true)
                         {
@@ -1096,7 +1098,7 @@ namespace final_project_sem1
                 }
                 
             }
-            if (bricks_lv4.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.I))
+            if (bricks_lv4.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.I))// when all the bricks are destroyed sends player to level 5 gameplay screen
             {
                 balls.Clear();
                 _currState = GameStates.Gameplayscreen_level5;
@@ -1104,17 +1106,17 @@ namespace final_project_sem1
                                                             (float)10)));
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))//when press space send player to pause screen
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))//when player health reaches 0 sends player to game over screen
             {
                 _currState = GameStates.game_overScreen;
-                balls[0].Spaceship_health = 100;
-                bricks_lv4.Clear();
-                setupLevel4();
+                balls[0].Spaceship_health = 100;//sets player health back to 100
+                bricks_lv4.Clear();//clear the bricks of level4
+                setupLevel4();//rest the bricks of the level
 
             }
         }
@@ -1175,7 +1177,7 @@ namespace final_project_sem1
                 }
                 for (int j = 0; j < balls.Count; j++)//
                 {
-                    if (bricks_lv5[i]._rect.Intersects(balls[j].Rect))
+                    if (bricks_lv5[i]._rect.Intersects(balls[j].Rect))//if the bricks collided with the ball is extra_ball_spawn bricks, the brick will disappear and a new ball will spawn at the place where the brick is destroyed
                     {
 
                         if (bricks_lv5[i].extra_ball_brick == true)
