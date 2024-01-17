@@ -10,7 +10,7 @@ namespace final_project_sem1
 {
     public class Game1 : Game
     {
-        enum GameStates
+        enum GameStates //set up gamestates
         {
             St_screen,
             Skin_select,
@@ -26,7 +26,9 @@ namespace final_project_sem1
 
         }
         
-
+        /// class varaibles goes in here
+        /// sprite fonts and sprite effect
+        /// lists and arrays
         Point MAXSHAKE = new Point(20, 20);
 
 
@@ -84,7 +86,7 @@ namespace final_project_sem1
 
 
 
-        protected override void Initialize()
+        protected override void Initialize()///initialise the scrolling backgrounds and the list of bricks for the game
         {
             
             _currState = GameStates.St_screen;
@@ -321,7 +323,7 @@ namespace final_project_sem1
             bricks_lv5.Add(new Bricks(Content.Load<Texture2D>("brick_glass"), 730, 420, 4));
         }
 
-        protected override void LoadContent()
+        protected override void LoadContent()/// all the bricks, balls, backgrounds and the bat textures and art goes in here
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             GuideFont = Content.Load<SpriteFont>("Ariel07");
@@ -429,7 +431,7 @@ namespace final_project_sem1
 
 
 
-        protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime gameTime)//update method for the base ball, keyboard and mouse movements
         {
 
              kb = Keyboard.GetState();
@@ -454,7 +456,7 @@ namespace final_project_sem1
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
                 // If the current background has completely vanished off the bottom hand side of the screen
-                if (bgds[i]._rect.Y < -990) // Note that this is 0 only because of the fake screen layout. It'd need to be equal to something much lower in fullscreen mode
+                if (bgds[i]._rect.Y < -990) 
                 {
                     // Flip it over to AFTER the topmost background
                     bgds[i]._rect.Y = bgds[(i + (NOOFSC_BACKGROUNDS - 1)) % NOOFSC_BACKGROUNDS]._rect.Bottom;
@@ -502,7 +504,7 @@ namespace final_project_sem1
 
 
 
-            switch (_currState)
+            switch (_currState) ///switching game states
             {
                 case GameStates.St_screen:
                     St_screenUpdate(_mouseState);
@@ -544,7 +546,7 @@ namespace final_project_sem1
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        protected override void Draw(GameTime gameTime)///all the game state draw goes in here
         {
 
 
@@ -657,6 +659,8 @@ namespace final_project_sem1
             
         }
         #endregion
+        /// method for the pause screen, everything that happenes in the pause screen goes under here
+        /// if the rectangle of the button contains the rectangle of the mouse and the mouse is pressed the gamestate changes to start screen
         void pause_screenUpdate(MouseState ms)
         {
             //this is the method for the pause screen with the buttons interactions
@@ -776,20 +780,20 @@ namespace final_project_sem1
                 }
 
             }
-            if (bricks_lv1.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
+            if (bricks_lv1.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))//if all bricks are destroyed change game state to cutscnene1
             {
                 balls.Clear();
                 _currState = GameStates.cut_scene1;
                 balls.Add(new ball(Content.Load<Texture2D>("ball_1"), new Vector2(350, 700), new Vector2((float)5,
                                                             (float)10)));
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))//if space is pressed the game will be paused
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
                 
             }
-            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))//if health reaches 0, game is lost and sends player to game over screen and resets the bricks and balls for level 1
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
@@ -858,7 +862,7 @@ namespace final_project_sem1
                 for (int j = 0; j < balls.Count; j++)
                 {
 
-                    if (bricks_lv2[i]._rect.Intersects(balls[j].Rect))
+                    if (bricks_lv2[i]._rect.Intersects(balls[j].Rect)) //if ball collides with the brick, the brick disappears and the ball will travel to the opposite direction with a random velocity
                     {
                         int randInt = RNG.Next(3, 12);
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
@@ -881,19 +885,19 @@ namespace final_project_sem1
                 }
 
             }
-            if (bricks_lv2.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))
+            if (bricks_lv2.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.P))// if all bricks are destroyed the screen changes to level3
             {
                 balls.Clear();
                 _currState = GameStates.Gameplayscreen_level3;
                 balls.Add(new ball(Content.Load<Texture2D>("ball_1"), new Vector2(350,700), new Vector2((float)5,
                                                             (float)10)));
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))//when space is pressed, sends player to pause screen
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
             }
-            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
+            if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q)) // if health reaches 0 seitch to game over screen
             {
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
@@ -915,7 +919,7 @@ namespace final_project_sem1
             {
                 balls[0]._velocity.Y = -5;
             }
-            for (int i = 0; i < bricks_lv3.Count; i++)
+            for (int i = 0; i < bricks_lv3.Count; i++)//for loop for the bricks
             {
                 if (CanvasLocation == Vector2.Zero) // If the screen is settled in its correct place
                 {
@@ -956,9 +960,9 @@ namespace final_project_sem1
                     }
                     #endregion
                 }
-                for (int j = 0; j < balls.Count; j++)
+                for (int j = 0; j < balls.Count; j++)//for loop for the balls
                 {
-                    if (bricks_lv3[i]._rect.Intersects(balls[j].Rect))
+                    if (bricks_lv3[i]._rect.Intersects(balls[j].Rect)) //if the bricks collided with the ball is extra_ball_spawn bricks, the brick will disappear and a new ball will spawn at the place where the brick is destroyed
                     {
                         if (bricks_lv3[i].extra_ball_brick == true)
                         {
@@ -1240,7 +1244,7 @@ namespace final_project_sem1
 
 
         #region startscreen_draw 
-        void St_screenDraw(GameTime gameTime)
+        void St_screenDraw(GameTime gameTime) //draw methods for start screen
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
@@ -1259,7 +1263,7 @@ namespace final_project_sem1
         #endregion
 
         #region how to play screen 
-        void Htp_screenDraw(GameTime gameTime)
+        void Htp_screenDraw(GameTime gameTime)//draw method for how to play screen
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
@@ -1293,12 +1297,12 @@ namespace final_project_sem1
         #endregion
        
         #region skin_select
-        void Skin_selectDraw(GameTime gameTime)
+        void Skin_selectDraw(GameTime gameTime)//draw method for skin selection
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
             bgd2.DrawMe(_spriteBatch);
-            for (int i = 0; i < balls_skin_select.Count; i++)
+            for (int i = 0; i < balls_skin_select.Count; i++)//draws the list of ball skins on the screen
             {                
 
                     balls_skin_select[i].DrawMe(_spriteBatch);
@@ -1313,7 +1317,7 @@ namespace final_project_sem1
 
         #region game_over_screen
 
-        void game_overScreenDraw(GameTime gameTime)
+        void game_overScreenDraw(GameTime gameTime)///method draws game over screen
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
@@ -1351,13 +1355,13 @@ namespace final_project_sem1
                 _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
 
             
-            for (int i = 0; i < bricks_lv1.Count; i++)
+            for (int i = 0; i < bricks_lv1.Count; i++)//draws all bricks for level 1
             {
 
                 bricks_lv1[i].DrawMe(_spriteBatch);
                 
             }
-            for (int i = 0; i < balls.Count; i++)
+            for (int i = 0; i < balls.Count; i++)//draws the ball
             {
               
                    
