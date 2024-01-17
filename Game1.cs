@@ -766,6 +766,11 @@ namespace final_project_sem1
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
+                balls[0].Spaceship_health = 100;
+                for (int i = 0; i < bricks_lv1.Count; i++)
+                {
+
+                }
             }
 
         }
@@ -858,6 +863,7 @@ namespace final_project_sem1
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
+                balls[0].Spaceship_health = 100;
             }
         }
         #endregion
@@ -951,6 +957,7 @@ namespace final_project_sem1
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
+                balls[0].Spaceship_health = 100;
             }
         }
         #endregion
@@ -1046,6 +1053,7 @@ namespace final_project_sem1
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
+                balls[0].Spaceship_health = 100;
             }
         }
         #endregion
@@ -1144,6 +1152,7 @@ namespace final_project_sem1
             if (balls[0].Spaceship_health <= 0 || Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 _currState = GameStates.game_overScreen;
+                balls[0].Spaceship_health = 100;
             }
         }
         #endregion

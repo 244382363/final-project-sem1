@@ -11,6 +11,7 @@ namespace final_project_sem1
 {
     class Bricks
     {
+        //class variables for bricks
         public Rectangle _rect;
         Texture2D _txr;
         
@@ -19,7 +20,7 @@ namespace final_project_sem1
         public int brick_health;
 
 
-        public Bricks(Texture2D txr, int xpos, int ypos,int mod_brick)
+        public Bricks(Texture2D txr, int xpos, int ypos,int mod_brick)//all the logic for the bricks type
         {
             _txr = txr;
             _pos = new Vector2(xpos, ypos);

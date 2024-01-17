@@ -10,7 +10,7 @@ namespace final_project_sem1
     
     class ball
     {
-        
+        //variables for the ball
         public Vector2 _position, _currpos;
         public Rectangle Rect;
         public Texture2D _art;
@@ -77,7 +77,7 @@ namespace final_project_sem1
 
         public void DrawMe(SpriteBatch sb)
         {
-            if (Rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+            if (Rect.Contains(Mouse.GetState().X, Mouse.GetState().Y))//draws the texture of ball and change the color when the mouse intersects
             {
                 sb.Draw(_art, _position, null, Color.White * 0.5f, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
             }
