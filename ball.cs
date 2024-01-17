@@ -23,13 +23,13 @@ namespace final_project_sem1
         public int NOOF_bounces,Spaceship_health;
 
         // Class Constructors
-        public ball(Texture2D txr, Vector2 startPos, Vector2 startVel)
+        public ball(Texture2D txr, Vector2 startPos, Vector2 startVel)//moving logic for the ball
         {
             
             _position = startPos;
             _velocity = startVel;
             _art = txr;
-            Rect = new Rectangle(_position.ToPoint() - _art.Bounds.Center,txr.Bounds.Size);
+            Rect = new Rectangle(_position.ToPoint() - _art.Bounds.Center,txr.Bounds.Size);//sets ball to the center of the rectangle
 
             NOOF_bounces = 0;
             Spaceship_health = 100;
@@ -52,13 +52,14 @@ namespace final_project_sem1
                 NOOF_bounces += 1;
                 
             }
-
+            //if the ball hits the top of the screen move downwards
             if (_position.Y < bounds.Top) 
             {
                 _velocity.Y *= -1;
                 NOOF_bounces += 1;
 
             }
+            //if the ball hits the bottom of the screen move upwards
             if (_position.Y > bounds.Bottom)
             {
                 _velocity.Y *= -1;

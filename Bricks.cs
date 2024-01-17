@@ -32,12 +32,12 @@ namespace final_project_sem1
             {
                 extra_ball_brick = false;
             }
-            if(mod_brick == 2)
+            if(mod_brick == 2)//set fortified brick's health to 4
             {
                 fortify_brick = true;
                 brick_health = 4;
             }
-            else
+            else//other wise the bricks health is 1
             {
                 fortify_brick= false;
                 brick_health = 1;
