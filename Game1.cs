@@ -24,7 +24,8 @@ namespace final_project_sem1
             Gameplayscreen_level2,
             Gameplayscreen_level3,
             Gameplayscreen_level4,
-            Gameplayscreen_level5
+            Gameplayscreen_level5,
+            GameWon_screen
 
         }
         
@@ -53,7 +54,7 @@ namespace final_project_sem1
         GameStates _currState, _oldState;
         
         SpriteFont debugFont, GuideFont;
-        background bgd3, bgd1, bgd2, gameplayscreen2, pause_screen, game_over_screen, cut_scene1;
+        background bgd3, bgd1, bgd2, gameplayscreen2, pause_screen, game_over_screen, cut_scene1, gameWon_screen;
         List<Bricks> bricks_htp, bricks_lv1, bricks_lv2, bricks_lv3, bricks_lv4, bricks_lv5;
         List<ball> balls, balls_skin_select, balls_brick_spawn;
         ball _balls;
@@ -334,7 +335,7 @@ namespace final_project_sem1
             // Go through the backgrounds one by one and set up their textures
             for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
             {
-                bgds[i]._txr = Content.Load<Texture2D>("sc_bgd" + i);
+                bgds[i]._txr = Content.Load<Texture2D>("scrl_bgd" + i);
             }
 
             // Load the visible area overlay
@@ -417,6 +418,8 @@ namespace final_project_sem1
             pause_screen = new background(Content.Load<Texture2D>("Pause_screen"));
             gameplayscreen2 = new background(Content.Load<Texture2D>("game_play_screen2_0"));
             game_over_screen = new background(Content.Load<Texture2D>("game over screen"));
+            gameWon_screen = new background(Content.Load<Texture2D>("game_win"));
+
 
 
             cut_scene1 = new background(Content.Load<Texture2D>("cut_scene1"));
@@ -542,6 +545,9 @@ namespace final_project_sem1
                 case GameStates.Gameplayscreen_level5:
                     Gameplayscreen_lv5Update(_mouseState);
                     break;
+                case GameStates.GameWon_screen:
+                    GameWon_screenUpdate(_mouseState);
+                    break;
             }
             bat.UpdateMe(padcurr);
             oldkb = kb;
@@ -589,6 +595,9 @@ namespace final_project_sem1
                     break;
                 case GameStates.Gameplayscreen_level5:
                     Gameplayscreen_level5_Draw(gameTime);
+                    break;
+                case GameStates.GameWon_screen:
+                    GameWon_screenDraw(gameTime);
                     break;
             }
 
@@ -1222,6 +1231,12 @@ namespace final_project_sem1
                 }
 
             }
+            if (bricks_lv5.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.U))// when all the bricks are destroyed sends player to gamewon screen
+            {
+                balls.Clear();
+                _currState = GameStates.GameWon_screen;
+                
+            }
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 _oldState = _currState;
@@ -1239,6 +1254,14 @@ namespace final_project_sem1
             }
         }
         #endregion
+
+        void GameWon_screenUpdate(MouseState ms)//when back_to_menu button is pressed sends the player to the start screen
+        {
+            if (bktomenu_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            {
+                _currState = GameStates.St_screen;
+            }
+        }
 
 
 
@@ -1445,7 +1468,8 @@ namespace final_project_sem1
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            gameplayscreen2.DrawMe(_spriteBatch);
+            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
+                _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
             for (int i = 0; i < bricks_lv2.Count; i++)
             {
 
@@ -1497,6 +1521,8 @@ namespace final_project_sem1
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
+                _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
             for (int i = 0; i < bricks_lv3.Count; i++)
             {
 
@@ -1556,6 +1582,8 @@ namespace final_project_sem1
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
+                _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
             for (int i = 0; i < bricks_lv4.Count; i++)
             {
 
@@ -1598,6 +1626,8 @@ namespace final_project_sem1
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
+            for (int i = 0; i < NOOFSC_BACKGROUNDS; i++)
+                _spriteBatch.Draw(bgds[i]._txr, bgds[i]._rect, Color.White);
             for (int i = 0; i < bricks_lv5.Count; i++)
             {
 
@@ -1629,6 +1659,14 @@ namespace final_project_sem1
             _spriteBatch.End();
         }
         #endregion
+
+        void GameWon_screenDraw(GameTime gameTime)
+        {
+            _spriteBatch.Begin();
+            gameWon_screen.DrawMe(_spriteBatch);
+            bktomenu_button.DrawMe(_spriteBatch, gameTime);
+            _spriteBatch.End();
+        }
 
     }
 }
