@@ -1231,13 +1231,9 @@ namespace final_project_sem1
                 }
 
             }
-            if (bricks_lv5.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.U))// when all the bricks are destroyed sends player to gamewon screen
-            {
-                balls.Clear();
-                _currState = GameStates.GameWon_screen;
-                
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+             
+            
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))//when space is pressed sends player to pause screen
             {
                 _oldState = _currState;
                 _currState = GameStates.pause_screen;
@@ -1250,6 +1246,12 @@ namespace final_project_sem1
                 balls[0].Spaceship_health = 100;
                 bricks_lv5.Clear();
                 setupLevel5();
+
+            }
+            if (bricks_lv5.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.U))// when all the bricks are destroyed sends player to gamewon screen
+            {
+                balls.Clear();
+                _currState = GameStates.GameWon_screen;
 
             }
         }
