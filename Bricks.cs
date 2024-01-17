@@ -67,6 +67,7 @@ namespace final_project_sem1
         public void DrawMe(SpriteBatch sb)
         {
             sb.Draw(_txr, _pos, Color.White);
+            
         }
 
 
