@@ -583,7 +583,7 @@ namespace final_project_sem1
 
         #region start_screen_update
 
-        void St_screenUpdate(MouseState ms)
+        void St_screenUpdate(MouseState ms)//method for start screen interactions with the buttons
         {
             if (sk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
@@ -658,7 +658,7 @@ namespace final_project_sem1
 
         void game_overScreenUpdate(MouseState ms)
         {
-
+            //method for game over screen with buttons interactions
             if (bktomenu_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
                 _currState = GameStates.St_screen;
@@ -699,7 +699,7 @@ namespace final_project_sem1
                         // Start a shake by bouncing to a random location...
                         CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
                         bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
-                        //snore.Play(); // Play the sound effect
+                        
                     }
                 }
                 else    // We're not in the correct position...
@@ -732,12 +732,12 @@ namespace final_project_sem1
                 {
                     if (bricks_lv1[i]._rect.Intersects(balls[j].Rect))
                     {
-                        int randInt = RNG.Next(3, 12);
+                        int randInt = RNG.Next(3, 12);//balls velocity will change randomly when colliding with the brick
                         balls[j]._velocity = new Vector2((float)randInt, (float)(12 - randInt));
                         //balls[j]._velocity.X *= +1;
                         //balls[j]._velocity.Y *= -1;
-                        balls[j].NOOF_bounces += 1;
-                        ring_deo1.Play();
+                        balls[j].NOOF_bounces += 1;//increases the number of bounces by 1
+                        ring_deo1.Play();//plays the sound effect when ever the ball collides with brick
                         bricks_lv1[i].brick_health -= 1;
                         if (bricks_lv1[i].brick_health <= 0)
                         {
@@ -791,7 +791,7 @@ namespace final_project_sem1
                             // Start a shake by bouncing to a random location...
                             CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
                             bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
-                                                        //snore.Play(); // Play the sound effect
+                                                        
                     }
                 }
                 else    // We're not in the correct position...
@@ -881,7 +881,7 @@ namespace final_project_sem1
                         // Start a shake by bouncing to a random location...
                         CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
                         bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
-                                                    //snore.Play(); // Play the sound effect
+                                                    
                     }
                 }
                 else    // We're not in the correct position...
@@ -974,7 +974,7 @@ namespace final_project_sem1
                         // Start a shake by bouncing to a random location...
                         CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
                         bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
-                                                    //snore.Play(); // Play the sound effect
+                                                    
                     }
                 }
                 else    // We're not in the correct position...
@@ -1069,7 +1069,7 @@ namespace final_project_sem1
                         // Start a shake by bouncing to a random location...
                         CanvasLocation = new Vector2(RNG.Next(-MAXSHAKE.X, MAXSHAKE.X), RNG.Next(-MAXSHAKE.Y, MAXSHAKE.Y));
                         bouncesLeft = BOUNCECOUNT;  // ... and setting the number of bounces left to maximum
-                                                    //snore.Play(); // Play the sound effect
+                                                    
                     }
                 }
                 else    // We're not in the correct position...
@@ -1094,7 +1094,7 @@ namespace final_project_sem1
                     }
                     #endregion
                 }
-                for (int j = 0; j < balls.Count; j++)
+                for (int j = 0; j < balls.Count; j++)//
                 {
                     if (bricks_lv5[i]._rect.Intersects(balls[j].Rect))
                     {
