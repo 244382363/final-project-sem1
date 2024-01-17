@@ -479,7 +479,7 @@ namespace final_project_sem1
 
             switch (_currState)
             {
-                //ball nad bat collision across all levels
+                //ball and bat collision across all levels
                 case GameStates.Gameplayscreen_level1:
                 case GameStates.Gameplayscreen_level2:
                 case GameStates.Gameplayscreen_level3:
@@ -606,17 +606,17 @@ namespace final_project_sem1
 
         void St_screenUpdate(MouseState ms)//method for start screen interactions with the buttons
         {
-            if (sk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            if (sk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)//if rectangle of skinselect button contains the mouse and the mouse is pressed sends player to skinselect screen
             {
                 _currState = GameStates.Skin_select;
 
             }
-            else if (st_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            else if (st_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)//if rectangle of start button contains the mouse and the mouse is pressed then sends player to the level gameplay screen
             {
                 _currState = GameStates.Gameplayscreen_level1;
 
             }
-            else if (htp_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            else if (htp_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)//if rectangle of how_to_play button contains the mouse and the mouse is pressed then sends player to the how to play screen
             {
                 _currState = GameStates.Htp_screen;
 
@@ -627,15 +627,15 @@ namespace final_project_sem1
         #region skin_select_update
         void Skin_selectUpdate(MouseState ms)
         {
-            if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+            if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)//if rectangle of back button contains the mouse and the mouse is pressed then sends play back to the start screen
             {
                 _currState = GameStates.St_screen;
 
             }
             
-            for (int i = 0; i < balls_skin_select.Count; i++)
+            for (int i = 0; i < balls_skin_select.Count; i++)//goes through the list of ball textures
             {
-                if (balls_skin_select[i].Rect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
+                if (balls_skin_select[i].Rect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)//if the desired ball is pressed then the seleceted skin will be used throughout the gameplay process
                 {
 
                    
@@ -692,7 +692,7 @@ namespace final_project_sem1
 
         #region cut_scene_1_update
 
-        void Cut_scene1Update(MouseState ms)
+        void Cut_scene1Update(MouseState ms)//when next button is pressed sends the player to gameplay level 2 screen
         {
             if (nxt_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
@@ -1347,7 +1347,15 @@ namespace final_project_sem1
         }
 
         #region gameplay_lv1 draw
-        void GameplayscreenDraw(GameTime gameTime)///draw method for game 1
+        /// draw method for level 1
+        /// draws the screen shake canvas
+        /// draws scrolling backgrounds
+        /// draws level 1 bricks
+        /// draws the ball
+        /// draws the bat
+        /// draws the text strings that appears on screen
+        /// <param name="gameTime"></param>
+        void GameplayscreenDraw(GameTime gameTime)
         {
             _graphics.GraphicsDevice.SetRenderTarget(DrawCanvas);
             GraphicsDevice.Clear(Color.SkyBlue);
