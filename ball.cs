@@ -87,7 +87,7 @@ namespace final_project_sem1
                 sb.Draw(_art, _position, null, Color.White, _rotation, _art.Bounds.Center.ToVector2(), 1, SpriteEffects.None, 0);
             }
             // sB.Draw(Art, Position, Color.White);
-            sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
+            //sb.Draw(Game1.pixel, Rect, Color.White * 0.5f);
         }
     }
 }

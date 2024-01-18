@@ -677,6 +677,17 @@ namespace final_project_sem1
             //this is the method for the pause screen with the buttons interactions
             if (bk_button.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y) && _mouseState.LeftButton == ButtonState.Pressed)
             {
+                
+                bricks_lv1.Clear();
+                bricks_lv2.Clear();
+                bricks_lv3.Clear();
+                bricks_lv4.Clear();
+                bricks_lv5.Clear();
+                setupLevel1();
+                setupLevel2();
+                setupLevel3();
+                setupLevel4();
+                setupLevel5();
                 _currState = GameStates.St_screen;
                 
             }
@@ -815,7 +826,7 @@ namespace final_project_sem1
         }
         #endregion
 
-        #region level2 update
+        #region level_2 update
         void Gameplayscreen_lv2Update(MouseState ms)
         {
             //if statements that sets the Y velocity of the ball to be over 5 and below -5
@@ -913,12 +924,13 @@ namespace final_project_sem1
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100; //sets health back to 100
                 bricks_lv2.Clear(); //clear all the bricks
-                setupLevel2();//resets the bricks
+                setupLevel2();//resets the bricks and the bricks prior to this level
+                setupLevel1();
             }
         }
         #endregion
 
-        #region level3 update
+        #region level_3 update
         void Gameplayscreen_lv3Update(MouseState ms)
         {
             //if statements that sets the Y velocity of the ball to be over 5 and below -5
@@ -1018,6 +1030,8 @@ namespace final_project_sem1
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100; //sets health back to 100
                 bricks_lv3.Clear();//clear the bricks
+                setupLevel1();
+                setupLevel2();
                 setupLevel3();//reset the bricks
             }
         }
@@ -1125,6 +1139,9 @@ namespace final_project_sem1
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;//sets player health back to 100
                 bricks_lv4.Clear();//clear the bricks of level4
+                setupLevel1();
+                setupLevel2();
+                setupLevel3();
                 setupLevel4();//rest the bricks of the level
 
             }
@@ -1245,12 +1262,16 @@ namespace final_project_sem1
                 _currState = GameStates.game_overScreen;
                 balls[0].Spaceship_health = 100;
                 bricks_lv5.Clear();
+                setupLevel1();
+                setupLevel2();
+                setupLevel3();
+                setupLevel4();
                 setupLevel5();
 
             }
             if (bricks_lv5.Count <= 0 || Keyboard.GetState().IsKeyDown(Keys.U))// when all the bricks are destroyed sends player to gamewon screen
             {
-                balls.Clear();
+               
                 _currState = GameStates.GameWon_screen;
 
             }
