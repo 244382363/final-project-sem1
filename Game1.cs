@@ -122,7 +122,7 @@ namespace final_project_sem1
 
             base.Initialize();
         }
-
+#region level set up 1
         void setupLevel1()    //methods that stores all the bricks in level1
         {
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
@@ -176,7 +176,9 @@ namespace final_project_sem1
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 780, 95, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 830, 95, 0));
             bricks_lv1.Add(new Bricks(Content.Load<Texture2D>("brick"), 880, 95, 0));
-        } 
+        }
+        #endregion
+
         void setupLevel2()    //methods that stores all the bricks in level2
         {
             bricks_lv2.Add(new Bricks(Content.Load<Texture2D>("brick"), 80, 70, 0));
